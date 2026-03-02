@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroMercados — Latinoamérica · Datos Diarios</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080e08; --bg2:#0c140c; --bg3:#111911; --card:#0b130b;
+  --border:#182618; --accent:#3ddc84; --accent2:#a8ff6f;
+  --gold:#f4c542; --red:#ff5b5b; --blue:#4dd0e1; --orange:#ff9f43;
+  --purple:#c792ea; --muted:#344e34;
+  --text:#dff0df; --text2:#7a9e7a; --text3:#3e5c3e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{
+  content:'';position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 55% 35% at 12% 6%,rgba(61,220,132,.07) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 25% at 88% 90%,rgba(168,255,111,.04) 0%,transparent 50%);
+}
+
+/* ─── HEADER ─── */
+header{
+  position:sticky;top:0;z-index:200;background:rgba(8,14,8,.96);
+  backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
+  padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;
+}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;}
+.logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(61,220,132,.5)}50%{box-shadow:0 0 0 5px rgba(61,220,132,0)}}
+.logo-sub{color:var(--text3);font-weight:400;font-family:'DM Sans';font-size:.78rem;margin-left:2px;}
+.header-right{display:flex;align-items:center;gap:12px;}
+.live-badge{
+  display:flex;align-items:center;gap:5px;
+  background:rgba(61,220,132,.09);border:1px solid rgba(61,220,132,.28);
+  border-radius:20px;padding:3px 10px;
+  font-size:.65rem;font-family:'Space Mono',monospace;
+  color:var(--accent);text-transform:uppercase;letter-spacing:.08em;
+}
+.live-dot{width:5px;height:5px;background:var(--accent);border-radius:50%;animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+.status-chip{
+  font-family:'Space Mono',monospace;font-size:.6rem;
+  padding:2px 9px;border-radius:4px;border:1px solid var(--border);
+  transition:all .3s;
+}
+.status-chip.loading{color:var(--gold);border-color:rgba(244,197,66,.3);}
+.status-chip.ok{color:var(--accent);border-color:rgba(61,220,132,.3);}
+.status-chip.error{color:var(--red);border-color:rgba(255,91,91,.3);}
+.clock{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text3);}
+
+/* ─── TICKER ─── */
+.ticker-wrap{background:var(--bg3);border-bottom:1px solid var(--border);padding:5px 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-flex;animation:ticker 70s linear infinite;}
+.ticker-item{display:inline-block;margin:0 24px;font-family:'Space Mono',monospace;font-size:.68rem;color:var(--text2);}
+.ticker-sep{color:var(--text3);margin:0 4px;}
+@keyframes ticker{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+
+/* ─── TOP BAR ─── */
+.top-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;border-bottom:1px solid var(--border);background:var(--bg2);
+  flex-wrap:wrap;
+}
+.region-tabs{display:flex;overflow-x:auto;scrollbar-width:none;}
+.region-tabs::-webkit-scrollbar{display:none;}
+.tab{
+  padding:8px 14px 12px;font-size:.77rem;font-family:'Syne',sans-serif;font-weight:600;
+  color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;
+  white-space:nowrap;transition:all .2s;letter-spacing:.02em;
+}
+.tab:hover{color:var(--text2);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.period-sel{display:flex;gap:2px;align-items:center;padding:7px 0;}
+.period-lbl{font-size:.6rem;font-family:'Space Mono',monospace;color:var(--text3);margin-right:4px;}
+.pbtn{
+  padding:3px 10px;font-size:.63rem;font-family:'Space Mono',monospace;
+  border:1px solid var(--border);border-radius:4px;background:transparent;
+  color:var(--text3);cursor:pointer;transition:all .18s;
+}
+.pbtn:hover{color:var(--text2);border-color:var(--muted);}
+.pbtn.active{background:rgba(61,220,132,.11);border-color:var(--accent);color:var(--accent);}
+
+/* ─── MAIN GRID ─── */
+main{
+  position:relative;z-index:1;padding:14px 24px;
+  display:grid;grid-template-columns:1fr 1fr 1fr 280px;gap:12px;
+  max-width:1560px;margin:0 auto;
+}
+
+/* ─── CARD ─── */
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:14px;position:relative;overflow:hidden;transition:border-color .3s;
+}
+.card:hover{border-color:var(--muted);}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(61,220,132,.2),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.card:hover::before{opacity:1;}
+.card-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px;}
+.card-title{font-family:'Space Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);}
+.src-badge{
+  font-family:'Space Mono',monospace;font-size:.53rem;
+  color:var(--text3);border:1px solid var(--border);
+  border-radius:3px;padding:1px 6px;white-space:nowrap;flex-shrink:0;
+  text-decoration:none;cursor:pointer;transition:all .2s;
+}
+.src-badge:hover{color:var(--blue);border-color:rgba(77,208,225,.4);}
+.mini-btns{display:flex;gap:2px;flex-wrap:wrap;}
+.mbtn{
+  padding:2px 6px;font-size:.57rem;font-family:'Space Mono',monospace;
+  border:1px solid var(--border);border-radius:3px;background:transparent;
+  color:var(--text3);cursor:pointer;transition:all .13s;
+}
+.mbtn:hover{color:var(--text2);}
+.mbtn.active{background:rgba(61,220,132,.1);border-color:rgba(61,220,132,.35);color:var(--accent);}
+
+/* ─── SKELETON / LOADER ─── */
+.skel{background:linear-gradient(90deg,var(--border) 25%,var(--bg3) 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.overlay-load{
+  position:absolute;inset:0;background:rgba(8,14,8,.8);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:10px;z-index:10;gap:7px;
+  font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text3);
+}
+.overlay-load.gone{display:none;}
+.spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── COMMODITIES ─── */
+.commodities-section{grid-column:1/4;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.comm-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:13px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;
+}
+.comm-card:hover{transform:translateY(-2px);border-color:var(--muted);box-shadow:0 6px 20px rgba(0,0,0,.5);}
+.comm-card.sel{border-color:var(--accent);background:rgba(61,220,132,.04);}
+.comm-icon{font-size:1.35rem;margin-bottom:6px;display:block;}
+.comm-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;margin-bottom:3px;}
+.comm-price{font-family:'Space Mono',monospace;font-size:.95rem;font-weight:700;color:var(--accent2);}
+.comm-unit{font-size:.56rem;color:var(--text3);margin-left:2px;}
+.comm-chg{font-family:'Space Mono',monospace;font-size:.63rem;margin-top:3px;display:flex;align-items:center;gap:3px;}
+.comm-stats{margin-top:6px;display:grid;grid-template-columns:auto 1fr;gap:1px 6px;font-family:'Space Mono',monospace;font-size:.54rem;color:var(--text3);}
+.sv{color:var(--text2);}
+.comm-src{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--text3);margin-top:5px;opacity:.6;}
+.sparkline{margin-top:7px;height:30px;width:100%;}
+.up{color:var(--accent)} .down{color:var(--red)} .flat{color:var(--text3)}
+
+/* ─── WEATHER PANEL ─── */
+.weather-col{grid-column:4;grid-row:1/3;}
+.w-row{
+  padding:8px 0;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.w-row:last-child{border-bottom:none;}
+.w-region{font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem;}
+.w-meta{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--text3);margin-top:1px;}
+.rain-bar{margin-top:3px;height:2px;background:var(--border);border-radius:1px;width:64px;}
+.rain-fill{height:100%;background:var(--blue);border-radius:1px;transition:width .8s;}
+.w-right{text-align:right;flex-shrink:0;}
+.w-temp{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;}
+.w-icon{font-size:.95rem;}
+
+/* ─── MAIN CHART ─── */
+.chart-col{grid-column:1/3;}
+.chart-wrap{height:215px;position:relative;margin-top:6px;}
+.chart-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:5px;font-family:'Space Mono',monospace;font-size:.56rem;color:var(--text3);
+}
+.ohlc-bar{
+  display:flex;gap:10px;margin-top:4px;
+  font-family:'Space Mono',monospace;font-size:.58rem;
+}
+.ohlc-item{color:var(--text3);} .ohlc-val{color:var(--text2);}
+
+/* ─── INPUTS ─── */
+.inputs-col{grid-column:3;}
+.inp-row{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 0;border-bottom:1px solid var(--border);font-size:.72rem;
+}
+.inp-row:last-child{border-bottom:none;}
+.inp-name{color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.inp-price{font-family:'Space Mono',monospace;font-size:.68rem;white-space:nowrap;}
+.inp-spark{flex-shrink:0;}
+.inp-chg{font-family:'Space Mono',monospace;font-size:.6rem;min-width:46px;text-align:right;}
+
+/* ─── ALERTS ─── */
+.alerts-col{grid-column:4;}
+.al-item{
+  display:flex;gap:8px;padding:7px 0;
+  border-bottom:1px solid var(--border);align-items:flex-start;
+}
+.al-item:last-child{border-bottom:none;}
+.al-dot{width:6px;height:6px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+.al-dot.warning{background:var(--gold)} .al-dot.danger{background:var(--red)} .al-dot.info{background:var(--blue)}
+.al-title{font-size:.72rem;font-weight:500;line-height:1.35;}
+.al-time{font-family:'Space Mono',monospace;font-size:.57rem;color:var(--text3);margin-top:2px;}
+
+/* ─── ANNUAL CHARTS ─── */
+.annual-section{grid-column:1/4;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.mini-chart{height:115px;position:relative;margin-top:6px;}
+.chart-tag{margin-top:4px;font-family:'Space Mono',monospace;font-size:.56rem;color:var(--text3);display:flex;justify-content:space-between;}
+
+/* ─── INDICES ─── */
+.indices-col{grid-column:4;}
+.idx-item{padding:9px 0;border-bottom:1px solid var(--border);}
+.idx-item:last-child{border-bottom:none;}
+.idx-lbl{font-family:'Space Mono',monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:2px;}
+.idx-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.03em;}
+.idx-sub{font-size:.64rem;color:var(--text3);margin-top:1px;}
+.idx-bar{margin-top:5px;height:2px;background:var(--border);border-radius:1px;overflow:hidden;}
+.idx-bar-fill{height:100%;border-radius:1px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1.2s;}
+
+/* ─── SEASON ─── */
+.season-section{grid-column:1/5;}
+.season-grid{display:grid;grid-template-columns:88px repeat(12,1fr);gap:2px;margin-top:8px;}
+.s-lbl{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--text2);display:flex;align-items:center;}
+.s-mhdr{font-family:'Space Mono',monospace;font-size:.56rem;text-align:center;color:var(--text3);padding:2px 1px;}
+.s-cell{height:23px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.56rem;font-family:'Space Mono',monospace;}
+.s-high{background:rgba(61,220,132,.19);color:var(--accent);}
+.s-mid{background:rgba(244,197,66,.15);color:var(--gold);}
+.s-low{background:rgba(15,25,15,.9);color:var(--text3);}
+.s-rain{background:rgba(77,208,225,.14);color:var(--blue);}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1200px){
+  main{grid-template-columns:1fr 1fr 270px;}
+  .commodities-section{grid-column:1/3;grid-template-columns:repeat(3,1fr);}
+  .weather-col{grid-column:3;grid-row:1/3;}
+  .chart-col{grid-column:1/2;}.inputs-col{grid-column:2/3;}
+  .annual-section{grid-column:1/3;grid-template-columns:1fr 1fr;}
+  .indices-col,.alerts-col{grid-column:3;grid-row:auto;}
+  .season-section{grid-column:1/4;}
+}
+@media(max-width:768px){
+  main{grid-template-columns:1fr;padding:10px 10px;}
+  .commodities-section,.chart-col,.inputs-col,.annual-section,
+  .weather-col,.alerts-col,.indices-col,.season-section{grid-column:1;grid-row:auto;}
+  .commodities-section{grid-template-columns:repeat(2,1fr);}
+  .annual-section{grid-template-columns:1fr;}
+  .season-grid{grid-template-columns:60px repeat(12,1fr);}
+  header,.top-bar{padding:0 10px;}
+}
+
+.fade{opacity:0;transform:translateY(8px);animation:fdup .38s ease forwards;}
+@keyframes fdup{to{opacity:1;transform:none}}
+.fade:nth-child(1){animation-delay:.03s}.fade:nth-child(2){animation-delay:.06s}
+.fade:nth-child(3){animation-delay:.09s}.fade:nth-child(4){animation-delay:.12s}
+.fade:nth-child(5){animation-delay:.15s}
+
+/* ─── SETUP MODAL ─── */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(6px);
+}
+.modal-bg.hidden{display:none;}
+.modal{
+  background:#0d160d;border:1px solid #2a4a2a;border-radius:14px;
+  padding:36px 40px;max-width:560px;width:90%;
+  font-family:'DM Sans',sans-serif;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);
+}
+.modal-icon{font-size:2.4rem;margin-bottom:14px;display:block;text-align:center;}
+.modal h2{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;
+  text-align:center;margin-bottom:8px;letter-spacing:-.02em;
+}
+.modal-sub{text-align:center;color:var(--text2);font-size:.88rem;margin-bottom:24px;line-height:1.5;}
+.modal-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+.modal-step{
+  display:flex;gap:14px;align-items:flex-start;
+  background:rgba(61,220,132,.04);border:1px solid #1a2e1a;
+  border-radius:8px;padding:12px 14px;
+}
+.step-num{
+  font-family:'Space Mono',monospace;font-weight:700;font-size:.75rem;
+  color:var(--accent);background:rgba(61,220,132,.12);
+  border-radius:4px;padding:2px 7px;flex-shrink:0;margin-top:1px;
+}
+.step-content{font-size:.83rem;line-height:1.5;color:var(--text2);}
+.step-content strong{color:var(--text);display:block;margin-bottom:2px;}
+.step-content code{
+  font-family:'Space Mono',monospace;font-size:.75rem;
+  background:rgba(0,0,0,.4);border:1px solid #1a2e1a;
+  border-radius:3px;padding:2px 6px;color:var(--accent2);display:block;margin-top:4px;
+}
+.modal-note{
+  text-align:center;font-size:.76rem;color:var(--text3);
+  font-family:'Space Mono',monospace;margin-top:4px;
+}
+.modal-retry{
+  display:block;width:100%;padding:10px;margin-top:16px;
+  background:rgba(61,220,132,.12);border:1px solid rgba(61,220,132,.4);
+  border-radius:7px;color:var(--accent);font-family:'Space Mono',monospace;
+  font-size:.75rem;cursor:pointer;text-align:center;transition:all .2s;
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.modal-retry:hover{background:rgba(61,220,132,.2);}
+.modal-link{color:var(--blue);text-decoration:underline;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    AgroMercados
+    <span class="logo-sub">/ Latinoamérica · Datos Diarios</span>
+  </div>
+  <div class="header-right">
+    <div class="status-chip loading" id="statusChip">⏳ Iniciando…</div>
+    <div class="live-badge"><div class="live-dot"></div>En vivo</div>
+    <div class="clock" id="clock">—</div>
+  </div>
+</header>
+
+<div class="ticker-wrap"><div class="ticker-inner" id="ticker">Conectando…</div></div>
+
+<div class="top-bar">
+  <div class="region-tabs">
+    <div class="tab active" onclick="setRegion('all',this)">Toda la Región</div>
+    <div class="tab" onclick="setRegion('ca',this)">Centroamérica</div>
+    <div class="tab" onclick="setRegion('co',this)">Colombia</div>
+    <div class="tab" onclick="setRegion('ve',this)">Venezuela</div>
+    <div class="tab" onclick="setRegion('ec',this)">Ecuador</div>
+  </div>
+  <div class="period-sel">
+    <span class="period-lbl">Vista:</span>
+    <button class="pbtn" onclick="setPeriod(30,this)">1M</button>
+    <button class="pbtn" onclick="setPeriod(90,this)">3M</button>
+    <button class="pbtn" onclick="setPeriod(180,this)">6M</button>
+    <button class="pbtn active" onclick="setPeriod(365,this)">1A</button>
+    <button class="pbtn" onclick="setPeriod(730,this)">2A</button>
+    <button class="pbtn" onclick="setPeriod(1825,this)">5A</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- COMMODITIES -->
+  <div class="commodities-section" id="commSection">
+    <div class="fade" style="grid-column:1/6;padding:28px;text-align:center;color:var(--text3);font-family:'Space Mono',monospace;font-size:.7rem;">
+      <div class="spin" style="margin:0 auto 10px"></div>Descargando precios diarios · Alpha Vantage…
+    </div>
+  </div>
+
+  <!-- WEATHER -->
+  <div class="weather-col">
+    <div class="card" style="height:100%;position:relative">
+      <div class="card-hdr">
+        <div class="card-title">🌦 Clima Agrícola · Ahora</div>
+        <a href="https://open-meteo.com" target="_blank" class="src-badge">open-meteo.com</a>
+      </div>
+      <div class="overlay-load" id="wLoad"><div class="spin"></div>Cargando clima…</div>
+      <div id="weatherList"></div>
+    </div>
+  </div>
+
+  <!-- MAIN CHART -->
+  <div class="chart-col">
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title" id="chartTitle">📈 Precios Diarios · ☕ Café · 1 Año</div>
+          <div class="ohlc-bar" id="ohlcBar"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <div class="mini-btns">
+            <button class="mbtn" onclick="setChartPeriod(30,this)">1M</button>
+            <button class="mbtn" onclick="setChartPeriod(90,this)">3M</button>
+            <button class="mbtn" onclick="setChartPeriod(180,this)">6M</button>
+            <button class="mbtn active" onclick="setChartPeriod(365,this)">1A</button>
+            <button class="mbtn" onclick="setChartPeriod(730,this)">2A</button>
+            <button class="mbtn" onclick="setChartPeriod(1825,this)">5A</button>
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="position:relative">
+        <div class="overlay-load" id="chartLoad"><div class="spin"></div>Descargando serie diaria…</div>
+        <canvas id="priceChart"></canvas>
+      </div>
+      <div class="chart-foot">
+        <span id="chartSrc">Fuente: Alpha Vantage · Commodities Daily</span>
+        <span id="chartRange">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUTS -->
+  <div class="inputs-col">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">🧪 Insumos · Referencia Diaria</div>
+        <a href="https://www.alphavantage.co" target="_blank" class="src-badge">Alpha Vantage</a>
+      </div>
+      <div id="inputsList">
+        <div style="padding:16px 0;text-align:center;color:var(--text3);font-family:'Space Mono',monospace;font-size:.65rem;">
+          <div class="spin" style="margin:0 auto 8px"></div>Cargando…
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERTS -->
+  <div class="alerts-col">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:10px">⚠️ Alertas & Noticias</div>
+      <div id="alertsList"></div>
+    </div>
+  </div>
+
+  <!-- ANNUAL MINI CHARTS -->
+  <div class="annual-section">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">💧 Precipitación 12M (mm)</div>
+        <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" class="src-badge">ERA5 · open-meteo</a>
+      </div>
+      <div class="mini-chart" style="position:relative">
+        <div class="overlay-load" id="precipLoad"><div class="spin"></div></div>
+        <canvas id="precipChart"></canvas>
+      </div>
+      <div class="chart-tag"><span id="precipNote">Promedio 4 regiones</span><span style="color:var(--blue)">mm</span></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">🌡 Temperatura 12M (°C)</div>
+        <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" class="src-badge">ERA5 · open-meteo</a>
+      </div>
+      <div class="mini-chart" style="position:relative">
+        <div class="overlay-load" id="tempLoad"><div class="spin"></div></div>
+        <canvas id="tempChart"></canvas>
+      </div>
+      <div class="chart-tag"><span id="tempNote">Media 4 capitales agrícolas</span><span style="color:var(--gold)">°C</span></div>
+    </div>
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">⚖️ Comparativa Cultivos · % var.</div>
+        <a href="https://www.alphavantage.co" target="_blank" class="src-badge">Alpha Vantage</a>
+      </div>
+      <div class="mini-chart" style="position:relative">
+        <div class="overlay-load" id="compLoad"><div class="spin"></div></div>
+        <canvas id="compareChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDICES -->
+  <div class="indices-col">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">📊 Índices · Calculados</div>
+        <span class="src-badge">AV + FAO ref.</span>
+      </div>
+      <div id="indicesList"></div>
+    </div>
+  </div>
+
+  <!-- SEASON CALENDAR -->
+  <div class="season-section">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">🗓 Calendario Cosechas · Región · Año Completo</div>
+        <div style="display:flex;gap:10px;font-size:.58rem;font-family:'Space Mono',monospace">
+          <span style="color:var(--accent)">■ Alta</span>
+          <span style="color:var(--gold)">■ Media</span>
+          <span style="color:var(--text3)">■ Baja</span>
+          <span style="color:var(--blue)">■ Lluvia</span>
+        </div>
+      </div>
+      <div class="season-grid" id="seasonGrid"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- SETUP MODAL -->
+<div class="modal-bg hidden" id="setupModal">
+  <div class="modal">
+    <span class="modal-icon" id="modalIcon">⚙️</span>
+    <h2 id="modalTitle">Configuración requerida</h2>
+    <p class="modal-sub" id="modalSub"></p>
+    <div class="modal-steps" id="modalSteps"></div>
+    <p class="modal-note" id="modalNote"></p>
+    <button class="modal-retry" onclick="retryConnection()">↻ Reintentar conexión</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════
+
+const API = "http://localhost:5000/api";
+
+const COMMODITIES_META = {
+  cafe:   { name:"Café Arábica",  icon:"☕", exchange:"ICE" },
+  maiz:   { name:"Maíz",          icon:"🌽", exchange:"CBOT" },
+  arroz:  { name:"Arroz",         icon:"🌾", exchange:"CBOT" },
+  azucar: { name:"Azúcar #11",    icon:"🎋", exchange:"ICE" },
+  banano: { name:"Soya (ref.)",   icon:"🍌", exchange:"CBOT" },
+};
+
+const INPUTS_META = [
+  { id:"urea",    name:"Urea / CF Industries",  staticPrice:null, unit:"USD", change:null },
+  { id:"potasio", name:"Potasio / Mosaic Co.",  staticPrice:null, unit:"USD", change:null },
+  { id:"petroleo",name:"Petróleo WTI (diesel)", staticPrice:null, unit:"USD/barril", change:null },
+  // Static reference (no direct API)
+  { id:null, name:"Glifosato",       staticPrice:"4.80",  unit:"USD/L",   change:+2.8 },
+  { id:null, name:"DAP Fertiliz.",   staticPrice:"520",   unit:"USD/t",   change:-4.1 },
+  { id:null, name:"Semilla Maíz H",  staticPrice:"85",    unit:"USD/kg",  change:0.0  },
+  { id:null, name:"Fungicida",       staticPrice:"7.20",  unit:"USD/kg",  change:-1.8 },
+  { id:null, name:"Energía Riego",   staticPrice:"0.09",  unit:"USD/kWh", change:+12.5},
+];
+
+const ALERTS = [
+  {type:"danger", title:"Sequía severa en Valle del Cauca — maíz y caña en riesgo",      time:"hace 1h",  region:"co"},
+  {type:"warning",title:"Heladas en sierra ecuatoriana — café y maíz afectados",          time:"hace 3h",  region:"ec"},
+  {type:"info",   title:"Café Arábica sube 4.2% · máximo de 6 meses en ICE",             time:"hace 2h",  region:"co"},
+  {type:"warning",title:"Lluvias intensas en CA afectan cosecha de banano",               time:"hace 5h",  region:"ca"},
+  {type:"info",   title:"FAO: índice alimentos sube 2.1% en febrero 2026",               time:"hace 6h",  region:"all"},
+  {type:"danger", title:"Venezuela: escasez de insumos eleva costo producción 18%",      time:"hace 8h",  region:"ve"},
+  {type:"warning",title:"Riesgo El Niño moderado Q2 — monitoreo hídrico activo en CA",   time:"hace 12h", region:"ca"},
+];
+
+const SEASON_DATA = {
+  "Maíz":  ["low","low","mid","high","high","mid","low","low","mid","high","high","mid"],
+  "Arroz": ["mid","low","low","mid","high","high","high","mid","low","low","mid","mid"],
+  "Caña":  ["high","high","high","mid","mid","low","low","mid","high","high","high","high"],
+  "Café":  ["mid","mid","low","low","low","mid","high","high","high","high","mid","mid"],
+  "Banano":["mid","mid","mid","mid","high","high","high","high","high","mid","mid","mid"],
+  "Lluvia":["low","low","mid","rain","rain","rain","rain","rain","rain","mid","low","low"],
+};
+
+const MONTHS = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+
+let commData     = {};   // { id: { series:[{date,open,high,low,close,volume}], ...meta } }
+let inputData    = {};   // { id: { series:[...] } }
+let weatherNow   = [];
+let precipMonths = [];
+let tempMonths   = [];
+
+let selComm       = "cafe";
+let currentPeriod = 365;
+let chartPeriod   = 365;
+let currentRegion = "all";
+let loadedCount   = 0;
+let totalExpected  = 0;
+
+let priceChart=null, precipChart=null, tempChart=null, compareChart=null;
+
+// ═══════════════════════════════════════════════════
+//  FETCH HELPERS
+// ═══════════════════════════════════════════════════
+
+async function apiFetch(path) {
+  const r = await fetch(API + path);
+  if (!r.ok) throw new Error(`HTTP ${r.status} ${path}`);
+  return r.json();
+}
+
+// ═══════════════════════════════════════════════════
+//  DATA LOAD
+// ═══════════════════════════════════════════════════
+
+async function loadCommodities() {
+  const ids = Object.keys(COMMODITIES_META);
+  totalExpected += ids.length;
+  const results = await Promise.allSettled(ids.map(id => apiFetch(`/commodity/${id}`)));
+  results.forEach((res, i) => {
+    const id = ids[i];
+    if (res.status === "fulfilled" && res.value.series) {
+      commData[id] = res.value;
+      loadedCount++;
+    } else {
+      console.warn(`Commodity ${id} failed:`, res.reason || res.value);
+    }
+  });
+  renderCommodities();
+  renderTicker();
+  updateMainChart();
+  renderCompareChart();
+  renderIndices();
+  updateStatus();
+}
+
+async function loadInputs() {
+  const liveIds = INPUTS_META.filter(m => m.id).map(m => m.id);
+  totalExpected += liveIds.length;
+  const results = await Promise.allSettled(liveIds.map(id => apiFetch(`/input/${id}`)));
+  results.forEach((res, i) => {
+    const id = liveIds[i];
+    if (res.status === "fulfilled" && res.value.series) {
+      inputData[id] = res.value;
+      loadedCount++;
+    }
+  });
+  renderInputs();
+  updateStatus();
+}
+
+async function loadWeather() {
+  try {
+    const data = await apiFetch("/weather/current");
+    weatherNow = data.locations || [];
+    document.getElementById("wLoad").classList.add("gone");
+    renderWeather();
+    loadedCount++;
+    updateStatus();
+  } catch(e) { console.warn("Weather:", e); }
+}
+
+async function loadClimate() {
+  try {
+    const data = await apiFetch("/weather/history");
+    const locs = data.locations.filter(l => l.monthly);
+    if (!locs.length) return;
+    // Average across locations
+    const allMonths = [...new Set(locs.flatMap(l => l.monthly.map(m => m.month)))].sort();
+    precipMonths = allMonths.map(mk => {
+      const vals = locs.map(l => l.monthly.find(m => m.month === mk)).filter(Boolean);
+      const avg = vals.filter(v => v.precip_mm !== null).reduce((s,v,_,a) => s + v.precip_mm/a.length, 0);
+      return { label: mk, value: +avg.toFixed(1) };
+    });
+    tempMonths = allMonths.map(mk => {
+      const vals = locs.map(l => l.monthly.find(m => m.month === mk)).filter(Boolean).filter(v => v.temp_mean !== null);
+      const avg = vals.length ? vals.reduce((s,v,_,a) => s + v.temp_mean/a.length, 0) : null;
+      return { label: mk, value: avg !== null ? +avg.toFixed(1) : null };
+    });
+    document.getElementById("precipLoad").classList.add("gone");
+    document.getElementById("tempLoad").classList.add("gone");
+    renderPrecipChart();
+    renderTempChart();
+    loadedCount++;
+    updateStatus();
+  } catch(e) { console.warn("Climate:", e); }
+}
+
+// ═══════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════
+
+function sliceSeries(id, days) {
+  const s = commData[id]?.series || [];
+  if (!days) return s;
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+  const cut = cutoff.toISOString().slice(0,10);
+  return s.filter(d => d.date >= cut);
+}
+
+function getStats(id, days) {
+  const s = sliceSeries(id, days);
+  if (!s.length) return { last:null, prev:null, pct:0, abs:0, min:null, max:null, vol:0 };
+  const last = s[s.length-1].close ?? s[s.length-1].open;
+  const prev = s[0].close ?? s[0].open;
+  const pct  = prev ? +((last-prev)/prev*100).toFixed(2) : 0;
+  const abs  = +(last-prev).toFixed(3);
+  const min  = +Math.min(...s.map(d=>d.low??d.close??d.open)).toFixed(3);
+  const max  = +Math.max(...s.map(d=>d.high??d.close??d.open)).toFixed(3);
+  const vol  = s.reduce((a,d)=>a+(d.volume||0),0);
+  return { last, prev, pct, abs, min, max, vol };
+}
+
+function fmtDate(d) {
+  if (!d) return "—";
+  const [y,m,dy] = d.split("-");
+  return `${dy}/${MONTHS[parseInt(m)-1]}/${y.slice(2)}`;
+}
+
+function monthLbl(ym) {
+  const [y,m] = ym.split("-");
+  return `${MONTHS[parseInt(m)-1]} ${y.slice(2)}`;
+}
+
+function periodDays(n) {
+  if(n===30)return"1 mes"; if(n===90)return"3 meses";
+  if(n===180)return"6 meses"; if(n===365)return"1 año";
+  if(n===730)return"2 años"; return`${Math.round(n/365)} años`;
+}
+
+function weatherIcon(code) {
+  if(code===0)return"☀️"; if(code<=2)return"🌤"; if(code<=3)return"⛅";
+  if(code<=49)return"🌫"; if(code<=67)return"🌧"; if(code<=77)return"🌨";
+  if(code<=82)return"🌦"; return"⛈";
+}
+
+function updateStatus() {
+  const chip = document.getElementById("statusChip");
+  const hasAll = Object.keys(COMMODITIES_META).every(id => commData[id]);
+  if (hasAll) {
+    chip.className = "status-chip ok";
+    chip.textContent = "✓ Datos reales · Alpha Vantage";
+  } else if (loadedCount > 0) {
+    chip.className = "status-chip loading";
+    chip.textContent = `⏳ ${loadedCount}/${totalExpected} cargados…`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — COMMODITIES
+// ═══════════════════════════════════════════════════
+
+function renderCommodities() {
+  const el = document.getElementById("commSection");
+  el.innerHTML = "";
+  Object.keys(COMMODITIES_META).forEach(id => {
+    const meta = COMMODITIES_META[id];
+    const av = commData[id];
+    const stats = getStats(id, currentPeriod);
+    const y1 = getStats(id, 365);
+    const hasData = stats.last !== null;
+    const isUp = stats.pct >= 0;
+    const cls = isUp?"up":"down", arr=isUp?"▲":"▼";
+    const sel = selComm===id?"sel":"";
+    const lastEntry = av?.series?.[av.series.length-1];
+    const srcLabel = av?.source?.split("·")?.[0]?.trim() || "—";
+
+    el.innerHTML += `
+      <div class="comm-card fade ${sel}" onclick="selectComm('${id}')">
+        <span class="comm-icon">${meta.icon}</span>
+        <div class="comm-name">${meta.name}</div>
+        <div>
+          <span class="comm-price">${hasData ? stats.last.toFixed(3) : "…"}</span>
+          <span class="comm-unit">${av?.unit||""}</span>
+        </div>
+        <div class="comm-chg ${cls}">
+          ${arr} ${Math.abs(stats.pct)}%
+          <span style="color:var(--text3);margin-left:2px">(${isUp?"+":""}${stats.abs})</span>
+        </div>
+        <div class="comm-stats">
+          <span>1A:</span><span class="sv ${y1.pct>=0?"up":"down"}">${y1.pct>=0?"+":""}${y1.pct}%</span>
+          <span>Mín:</span><span class="sv">${stats.min??"—"}</span>
+          <span>Máx:</span><span class="sv">${stats.max??"—"}</span>
+          <span>Vol:</span><span class="sv">${stats.vol>0?(stats.vol/1000).toFixed(0)+"k":"—"}</span>
+        </div>
+        <svg class="sparkline" id="spk-${id}" viewBox="0 0 100 30" preserveAspectRatio="none"></svg>
+        <div class="comm-src">${meta.exchange} · ${fmtDate(lastEntry?.date)}</div>
+      </div>`;
+  });
+  Object.keys(COMMODITIES_META).forEach(id => drawSparkline(id));
+}
+
+function drawSparkline(id) {
+  const el = document.getElementById(`spk-${id}`);
+  if (!el) return;
+  const s = sliceSeries(id, Math.min(currentPeriod, 90));
+  if (s.length < 2) return;
+  const data = s.map(d => d.close ?? d.open);
+  const min = Math.min(...data), max = Math.max(...data), rng = max-min||1;
+  const pts = data.map((v,i) => `${(i/(data.length-1))*100},${30-((v-min)/rng*26)-2}`);
+  const {pct} = getStats(id, currentPeriod);
+  const color = pct>=0?"#3ddc84":"#ff5b5b";
+  el.innerHTML = `<polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>`;
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — WEATHER
+// ═══════════════════════════════════════════════════
+
+function renderWeather() {
+  const el = document.getElementById("weatherList");
+  el.innerHTML = "";
+  const show = currentRegion==="all" ? weatherNow
+    : weatherNow.filter(w => w.country===currentRegion);
+  const list = show.length ? show : weatherNow;
+  list.forEach(w => {
+    if (w.error) return;
+    const frost = w.temp < 5 ? `<span style="color:var(--blue);font-size:.52rem;margin-left:3px">❄</span>` : "";
+    const rainPct = Math.min(100, (w.precip||0) * 150);
+    el.innerHTML += `
+      <div class="w-row">
+        <div>
+          <div class="w-region">${w.region}${frost}</div>
+          <div class="w-meta">💨 ${w.wind} km/h · ${w.precip?.toFixed(1)||0} mm</div>
+          <div class="rain-bar"><div class="rain-fill" style="width:${rainPct}%"></div></div>
+        </div>
+        <div class="w-right">
+          <span class="w-icon">${weatherIcon(w.code||0)}</span>
+          <div class="w-temp">${(+w.temp).toFixed(1)}°C</div>
+        </div>
+      </div>`;
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — INPUTS
+// ═══════════════════════════════════════════════════
+
+function renderInputs() {
+  const el = document.getElementById("inputsList");
+  el.innerHTML = "";
+  INPUTS_META.forEach((meta, i) => {
+    let price, chg, unit, src;
+    if (meta.id && inputData[meta.id]) {
+      const s = inputData[meta.id].series;
+      const last = s[s.length-1]?.close;
+      const prev365 = s[Math.max(0, s.length-252)]?.close;
+      price = last?.toFixed(2);
+      chg = prev365 ? +((last-prev365)/prev365*100).toFixed(1) : 0;
+      unit = meta.unit;
+      src = "AV";
+    } else if (meta.staticPrice) {
+      price = meta.staticPrice; chg = meta.change; unit = meta.unit; src = "ref.";
+    } else { return; }
+
+    const cls = chg>0?"up":chg<0?"down":"flat";
+    const arr = chg>0?"▲":chg<0?"▼":"—";
+    const sparkId = `ispk-${i}`;
+
+    el.innerHTML += `
+      <div class="inp-row">
+        <span class="inp-name" title="${meta.name}">${meta.name}</span>
+        <span class="inp-price">${price}<span style="color:var(--text3);font-size:.53rem"> ${unit}</span></span>
+        <svg class="inp-spark" id="${sparkId}" width="44" height="18" viewBox="0 0 44 18" style="flex-shrink:0"></svg>
+        <span class="inp-chg ${cls}">${arr}${Math.abs(chg)}%</span>
+      </div>`;
+  });
+
+  // Draw input sparklines
+  INPUTS_META.forEach((meta, i) => {
+    if (!meta.id || !inputData[meta.id]) return;
+    const el = document.getElementById(`ispk-${i}`);
+    if (!el) return;
+    const s = inputData[meta.id].series.slice(-90);
+    if (s.length < 2) return;
+    const data = s.map(d => d.close);
+    const min = Math.min(...data), max = Math.max(...data), rng = max-min||1;
+    const pts = data.map((v,j) => `${(j/(data.length-1))*44},${18-((v-min)/rng*15)-1.5}`);
+    const last = data[data.length-1], first = data[0];
+    const color = last>=first?"#f4c542":"#ff5b5b";
+    el.innerHTML = `<polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="1.2" opacity=".9"/>`;
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — ALERTS
+// ═══════════════════════════════════════════════════
+
+function renderAlerts() {
+  const el = document.getElementById("alertsList");
+  el.innerHTML = "";
+  const f = ALERTS.filter(a => currentRegion==="all" || a.region===currentRegion || a.region==="all");
+  (f.length?f:ALERTS).forEach(a => {
+    el.innerHTML += `
+      <div class="al-item">
+        <div class="al-dot ${a.type}"></div>
+        <div><div class="al-title">${a.title}</div><div class="al-time">${a.time}</div></div>
+      </div>`;
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER — INDICES
+// ═══════════════════════════════════════════════════
+
+function renderIndices() {
+  const el = document.getElementById("indicesList");
+  const cafeStats = getStats("cafe",  365);
+  const maizStats = getStats("maiz",  365);
+  const azStats   = getStats("azucar",365);
+  const loaded    = [cafeStats,maizStats,azStats].filter(s=>s.last!==null);
+  const avgChg    = loaded.length ? loaded.reduce((s,d)=>s+d.pct,0)/loaded.length : 0;
+
+  const indices = [
+    {
+      lbl: "Var. Media Cultivos · 12M",
+      val: loaded.length ? (avgChg>=0?`+${avgChg.toFixed(1)}%`:`${avgChg.toFixed(1)}%`) : "…",
+      sub: "Café · Maíz · Azúcar · Soya",
+      bar: Math.min(100,50+avgChg*2), color: avgChg>=0?"var(--accent2)":"var(--red)"
+    },
+    {
+      lbl: "Café Arábica · Último",
+      val: cafeStats.last ? `$${cafeStats.last.toFixed(3)}` : "…",
+      sub: `ICE · ${cafeStats.pct>=0?"+":""}${cafeStats.pct}% (período)`,
+      bar: 72, color:"var(--accent)"
+    },
+    {
+      lbl: "Índice Alimentos FAO (ref.)",
+      val: "118.5", sub: "Feb 2026 · base 2014-16=100",
+      bar: 65, color:"var(--gold)"
+    },
+    {
+      lbl: "Petróleo WTI (costo diesel)",
+      val: inputData.petroleo?.series?.length
+        ? `$${inputData.petroleo.series[inputData.petroleo.series.length-1].close.toFixed(2)}`
+        : "…",
+      sub: "USD/barril · referencia insumos",
+      bar: 58, color:"var(--orange)"
+    },
+  ];
+  el.innerHTML = "";
+  indices.forEach(idx => {
+    el.innerHTML += `
+      <div class="idx-item">
+        <div class="idx-lbl">${idx.lbl}</div>
+        <div class="idx-val" style="color:${idx.color}">${idx.val}</div>
+        <div class="idx-sub">${idx.sub}</div>
+        <div class="idx-bar"><div class="idx-bar-fill" style="width:${Math.max(5,Math.min(100,idx.bar))}%"></div></div>
+      </div>`;
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  CHARTS
+// ═══════════════════════════════════════════════════
+
+const BASE = {
+  responsive:true, maintainAspectRatio:false, animation:{duration:350},
+  interaction:{mode:"index",intersect:false},
+  plugins:{
+    legend:{display:false},
+    tooltip:{
+      backgroundColor:"#0b130b", borderColor:"#182618", borderWidth:1,
+      titleColor:"#7a9e7a", bodyColor:"#a8ff6f",
+      titleFont:{family:"Space Mono",size:8}, bodyFont:{family:"Space Mono",size:10},
+    }
+  },
+  scales:{
+    x:{grid:{color:"rgba(24,38,24,.5)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7},maxTicksLimit:9,maxRotation:35}},
+    y:{position:"right",grid:{color:"rgba(24,38,24,.5)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7}}},
+  }
+};
+
+function initMainChart() {
+  const ctx = document.getElementById("priceChart").getContext("2d");
+  const grad = ctx.createLinearGradient(0,0,0,215);
+  grad.addColorStop(0,"rgba(61,220,132,.14)"); grad.addColorStop(1,"rgba(61,220,132,0)");
+  priceChart = new Chart(ctx, {
+    type:"line",
+    data:{ labels:[], datasets:[{
+      data:[], borderColor:"#3ddc84", backgroundColor:grad,
+      borderWidth:1.7, pointRadius:0, pointHoverRadius:4, fill:true, tension:.25,
+    }]},
+    options:{...BASE, plugins:{...BASE.plugins, tooltip:{...BASE.plugins.tooltip,
+      callbacks:{ label: item => {
+        const av = commData[selComm];
+        return ` ${item.raw.toFixed(3)} ${av?.unit||""}`;
+      }}
+    }}},
+  });
+}
+
+function updateMainChart() {
+  if (!priceChart) return;
+  document.getElementById("chartLoad").classList.add("gone");
+  const s = sliceSeries(selComm, chartPeriod);
+  const av = commData[selComm];
+  const meta = COMMODITIES_META[selComm];
+  priceChart.data.labels = s.map(d => fmtDate(d.date));
+  priceChart.data.datasets[0].data = s.map(d => d.close ?? d.open);
+  document.getElementById("chartTitle").textContent =
+    `📈 Precios Diarios · ${meta?.icon} ${meta?.name} · ${periodDays(chartPeriod)}`;
+  document.getElementById("chartSrc").textContent =
+    `Fuente: ${av?.source || "Alpha Vantage"} · ${meta?.exchange||""}`;
+  if (s.length) {
+    const first = s[0], last = s[s.length-1];
+    document.getElementById("chartRange").textContent =
+      `${fmtDate(first.date)} → ${fmtDate(last.date)} · ${s.length} sesiones`;
+    // OHLC for last session
+    const ohlc = document.getElementById("ohlcBar");
+    if (last.open != null) {
+      ohlc.innerHTML = `
+        <span class="ohlc-item">A:<span class="ohlc-val"> ${last.open?.toFixed(3)}</span></span>
+        <span class="ohlc-item">H:<span class="ohlc-val" style="color:var(--accent)"> ${last.high?.toFixed(3)}</span></span>
+        <span class="ohlc-item">L:<span class="ohlc-val" style="color:var(--red)"> ${last.low?.toFixed(3)}</span></span>
+        <span class="ohlc-item">C:<span class="ohlc-val" style="color:var(--accent2)"> ${last.close?.toFixed(3)}</span></span>`;
+    }
+  }
+  priceChart.update("none");
+}
+
+function renderPrecipChart() {
+  const ctx = document.getElementById("precipChart").getContext("2d");
+  if (precipChart) precipChart.destroy();
+  const labels = precipMonths.map(m => monthLbl(m.label));
+  const data   = precipMonths.map(m => m.value);
+  const total  = data.reduce((a,b)=>a+b,0);
+  document.getElementById("precipNote").textContent = `Total 12M: ${total.toFixed(0)} mm · 4 regiones`;
+  precipChart = new Chart(ctx, {
+    type:"bar",
+    data:{ labels, datasets:[{ data, backgroundColor:"rgba(77,208,225,.4)", borderColor:"rgba(77,208,225,.8)", borderWidth:1, borderRadius:3 }]},
+    options:{...BASE, scales:{
+      x:{grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7},maxRotation:40}},
+      y:{position:"right",grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7}}},
+    }},
+  });
+}
+
+function renderTempChart() {
+  const ctx = document.getElementById("tempChart").getContext("2d");
+  if (tempChart) tempChart.destroy();
+  const valid = tempMonths.filter(m=>m.value!==null);
+  const labels = valid.map(m=>monthLbl(m.label));
+  const data   = valid.map(m=>m.value);
+  const avg    = data.length ? data.reduce((a,b)=>a+b,0)/data.length : 0;
+  document.getElementById("tempNote").textContent = `Media 12M: ${avg.toFixed(1)}°C · 4 capitales`;
+  const tg = ctx.createLinearGradient(0,0,0,115);
+  tg.addColorStop(0,"rgba(244,197,66,.18)"); tg.addColorStop(1,"rgba(244,197,66,0)");
+  tempChart = new Chart(ctx, {
+    type:"line",
+    data:{ labels, datasets:[{ data, borderColor:"#f4c542", backgroundColor:tg, borderWidth:1.6, pointRadius:2, pointHoverRadius:4, fill:true, tension:.4 }]},
+    options:{...BASE, scales:{
+      x:{grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7},maxRotation:40}},
+      y:{position:"right",grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7},callback:v=>v+"°"}},
+    }},
+  });
+}
+
+function renderCompareChart() {
+  const ctx = document.getElementById("compareChart").getContext("2d");
+  document.getElementById("compLoad").classList.add("gone");
+  if (compareChart) compareChart.destroy();
+  const colors = ["#3ddc84","#4dd0e1","#f4c542","#ff9f43","#c792ea"];
+  const ids = Object.keys(COMMODITIES_META);
+  const datasets = ids.map((id,i) => {
+    const s = sliceSeries(id, currentPeriod);
+    if (!s.length) return null;
+    const base = s[0].close ?? s[0].open;
+    const data = s.map(d => +(((d.close??d.open)-base)/base*100).toFixed(2));
+    return { label:COMMODITIES_META[id].name, data, borderColor:colors[i], backgroundColor:"transparent", borderWidth:1.4, pointRadius:0, tension:.3 };
+  }).filter(Boolean);
+  if (!datasets.length) return;
+  // All series may have different lengths — use the longest as label base
+  const main = datasets.reduce((a,b)=>b.data.length>a.data.length?b:a);
+  const mainSeries = sliceSeries(ids[datasets.indexOf(main)], currentPeriod);
+  const labels = mainSeries.map(d=>fmtDate(d.date));
+  // Pad shorter series
+  datasets.forEach(ds => { while(ds.data.length<labels.length) ds.data.unshift(null); });
+  compareChart = new Chart(ctx, {
+    type:"line",
+    data:{ labels, datasets },
+    options:{...BASE,
+      plugins:{...BASE.plugins,
+        legend:{display:true,position:"bottom",labels:{color:"#3e5c3e",font:{family:"Space Mono",size:6},boxWidth:8,padding:5}},
+      },
+      scales:{
+        x:{grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:6},maxTicksLimit:6,maxRotation:35}},
+        y:{position:"right",grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7},callback:v=>(v>0?"+":"")+v+"%"}},
+      }
+    },
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  TICKER
+// ═══════════════════════════════════════════════════
+
+function renderTicker() {
+  const el = document.getElementById("ticker");
+  let h = "";
+  Object.keys(COMMODITIES_META).forEach(id => {
+    const av = commData[id]; if (!av?.series?.length) return;
+    const s1 = getStats(id, 1), s365 = getStats(id, 365);
+    const cls = s1.pct>=0?"up":"down", arr=s1.pct>=0?"▲":"▼";
+    h += `<span class="ticker-item">${COMMODITIES_META[id].icon} ${COMMODITIES_META[id].name.toUpperCase()} <span class="${cls}">${s1.last?.toFixed(3)} ${av.unit} ${arr}${Math.abs(s1.pct)}%</span> <span style="color:var(--text3)">1A:${s365.pct>=0?"+":""}${s365.pct}%</span></span><span class="ticker-sep">|</span>`;
+  });
+  Object.keys(inputData).forEach(id => {
+    const s = inputData[id]?.series; if(!s?.length) return;
+    const last = s[s.length-1].close;
+    const prev = s[Math.max(0,s.length-2)].close;
+    const chg = prev ? +((last-prev)/prev*100).toFixed(2) : 0;
+    const cls = chg>=0?"up":"down";
+    h += `<span class="ticker-item" style="color:var(--text2)">${INPUTS_META.find(m=>m.id===id)?.name||id}: <span class="${cls}">$${last?.toFixed(2)}</span></span><span class="ticker-sep">|</span>`;
+  });
+  if (h) el.innerHTML = h + h;
+}
+
+// ═══════════════════════════════════════════════════
+//  SEASON CALENDAR
+// ═══════════════════════════════════════════════════
+
+function renderSeason() {
+  const g = document.getElementById("seasonGrid");
+  const nowM = new Date().getMonth();
+  g.innerHTML = `<div></div>`;
+  MONTHS.forEach((m,i) => {
+    g.innerHTML += `<div class="s-mhdr" style="${i===nowM?"color:var(--accent);font-weight:700":""}">${m}${i===nowM?" ◀":""}</div>`;
+  });
+  Object.entries(SEASON_DATA).forEach(([crop,lvls]) => {
+    g.innerHTML += `<div class="s-lbl">${crop}</div>`;
+    lvls.forEach((lvl,i) => {
+      const cls = lvl==="high"?"s-high":lvl==="mid"?"s-mid":lvl==="rain"?"s-rain":"s-low";
+      const lbl = lvl==="high"?"●●●":lvl==="mid"?"●●":lvl==="rain"?"🌧":"·";
+      const border = i===nowM?"outline:1px solid rgba(61,220,132,.35);":"";
+      g.innerHTML += `<div class="s-cell ${cls}" style="${border}">${lbl}</div>`;
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  INTERACTIONS
+// ═══════════════════════════════════════════════════
+
+function selectComm(id) {
+  selComm = id;
+  renderCommodities();
+  updateMainChart();
+}
+
+function setRegion(r, el) {
+  currentRegion = r;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");
+  renderAlerts();
+  renderWeather();
+}
+
+function setPeriod(days, el) {
+  currentPeriod = days;
+  document.querySelectorAll(".pbtn").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+  chartPeriod = days;
+  document.querySelectorAll(".mbtn").forEach(b=>b.classList.toggle("active", b.textContent===el.textContent));
+  renderCommodities();
+  updateMainChart();
+  renderCompareChart();
+}
+
+function setChartPeriod(days, el) {
+  chartPeriod = days;
+  document.querySelectorAll(".mbtn").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+  updateMainChart();
+}
+
+// ═══════════════════════════════════════════════════
+//  CLOCK & AUTO-REFRESH
+// ═══════════════════════════════════════════════════
+
+function tick() {
+  const now = new Date();
+  document.getElementById("clock").textContent =
+    now.toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit",second:"2-digit"}) +
+    " · " + now.toLocaleDateString("es",{weekday:"short",day:"numeric",month:"short"});
+}
+
+// ═══════════════════════════════════════════════════
+//  SETUP MODAL
+// ═══════════════════════════════════════════════════
+
+function showSetupModal(type) {
+  const modal   = document.getElementById("setupModal");
+  const icon    = document.getElementById("modalIcon");
+  const title   = document.getElementById("modalTitle");
+  const sub     = document.getElementById("modalSub");
+  const steps   = document.getElementById("modalSteps");
+  const note    = document.getElementById("modalNote");
+
+  modal.classList.remove("hidden");
+
+  if (type === "no-server") {
+    icon.textContent  = "🖥️";
+    title.textContent = "El servidor proxy no está corriendo";
+    sub.textContent   = "El dashboard necesita un servidor local para obtener datos reales de Alpha Vantage (resuelve CORS). Sigue estos pasos:";
+    steps.innerHTML = `
+      <div class="modal-step">
+        <span class="step-num">1</span>
+        <div class="step-content">
+          <strong>Obtén tu clave gratuita de Alpha Vantage</strong>
+          Regístrate en 30 segundos (solo email + nombre):<br>
+          <a href="https://www.alphavantage.co/support/#api-key" target="_blank" class="modal-link">alphavantage.co/support/#api-key</a>
+        </div>
+      </div>
+      <div class="modal-step">
+        <span class="step-num">2</span>
+        <div class="step-content">
+          <strong>Abre una terminal en la carpeta del proyecto</strong>
+          Navega hasta donde descomprimiste el ZIP.
+        </div>
+      </div>
+      <div class="modal-step">
+        <span class="step-num">3</span>
+        <div class="step-content">
+          <strong>Instala dependencias (solo la primera vez)</strong>
+          <code>pip install flask requests</code>
+        </div>
+      </div>
+      <div class="modal-step">
+        <span class="step-num">4</span>
+        <div class="step-content">
+          <strong>Inicia el servidor con tu clave</strong>
+          <code>python server.py TU_CLAVE_AQUI</code>
+          O en Mac/Linux ejecuta directamente: <code>./start.sh</code>
+          O en Windows: doble clic en <code>start.bat</code>
+        </div>
+      </div>
+      <div class="modal-step">
+        <span class="step-num">5</span>
+        <div class="step-content">
+          <strong>Recarga esta página</strong>
+          Una vez que el servidor esté corriendo, haz clic en "Reintentar" abajo.
+        </div>
+      </div>`;
+    note.textContent = "El servidor corre solo en tu computadora (localhost:5000) · No se expone en internet";
+
+  } else if (type === "no-key") {
+    icon.textContent  = "🔑";
+    title.textContent = "Falta configurar la clave de API";
+    sub.textContent   = "El servidor está corriendo pero sin clave de Alpha Vantage. Detén el servidor y reinícialo con tu clave:";
+    steps.innerHTML = `
+      <div class="modal-step">
+        <span class="step-num">1</span>
+        <div class="step-content">
+          <strong>Obtén tu clave gratuita (30 segundos)</strong>
+          <a href="https://www.alphavantage.co/support/#api-key" target="_blank" class="modal-link">alphavantage.co/support/#api-key</a>
+        </div>
+      </div>
+      <div class="modal-step">
+        <span class="step-num">2</span>
+        <div class="step-content">
+          <strong>Detén el servidor actual</strong>
+          Presiona <code>Ctrl + C</code> en la terminal donde corre.
+        </div>
+      </div>
+      <div class="modal-step">
+        <span class="step-num">3</span>
+        <div class="step-content">
+          <strong>Reinicia con tu clave</strong>
+          <code>python server.py TU_CLAVE_AQUI</code>
+        </div>
+      </div>`;
+    note.textContent = "Plan gratuito: 25 llamadas/día · El caché inteligente evita agotar el límite";
+  }
+}
+
+async function retryConnection() {
+  const modal = document.getElementById("setupModal");
+  const chip  = document.getElementById("statusChip");
+  chip.className   = "status-chip loading";
+  chip.textContent = "⏳ Reintentando…";
+  try {
+    const st = await apiFetch("/status");
+    if (!st.api_key_set) {
+      showSetupModal("no-key");
+      return;
+    }
+    modal.classList.add("hidden");
+    chip.className   = "status-chip ok";
+    chip.textContent = "✓ Conectado";
+    // Load data
+    await Promise.all([ loadCommodities(), loadInputs(), loadWeather(), loadClimate() ]);
+    renderIndices();
+    setInterval(loadWeather,   10 * 60 * 1000);
+    setInterval(() => { loadCommodities(); loadInputs(); renderIndices(); }, 4 * 60 * 60 * 1000);
+  } catch(e) {
+    chip.className   = "status-chip error";
+    chip.textContent = "❌ Servidor offline";
+    showSetupModal("no-server");
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+
+window.addEventListener("load", async () => {
+  renderAlerts();
+  renderSeason();
+  initMainChart();
+  tick(); setInterval(tick, 1000);
+
+  // Check server is up first
+  try {
+    const st = await apiFetch("/status");
+    if (!st.api_key_set) {
+      document.getElementById("statusChip").className = "status-chip error";
+      document.getElementById("statusChip").textContent = "⚠ Sin clave API";
+      showSetupModal("no-key");
+      return;
+    }
+  } catch(e) {
+    document.getElementById("statusChip").className = "status-chip error";
+    document.getElementById("statusChip").textContent = "❌ Servidor offline";
+    showSetupModal("no-server");
+    return;
+  }
+
+  // Load all data in parallel
+  await Promise.all([
+    loadCommodities(),
+    loadInputs(),
+    loadWeather(),
+    loadClimate(),
+  ]);
+
+  renderIndices();
+
+  // Auto-refresh: weather every 10 min, prices every 4 hours
+  setInterval(loadWeather,     10 * 60 * 1000);
+  setInterval(() => { loadCommodities(); loadInputs(); renderIndices(); }, 4 * 60 * 60 * 1000);
+});
+</script>
+</body>
+</html>
