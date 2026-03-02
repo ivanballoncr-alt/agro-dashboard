@@ -1,1 +1,5 @@
-web: gunicorn server:app
+.cache/
+__pycache__/
+*.pyc
+.env
+*.log
