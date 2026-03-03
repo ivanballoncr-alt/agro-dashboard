@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 from flask import Flask, jsonify, request, send_from_directory
 from functools import wraps
 
-API_KEY = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("AV_KEY", "demo")
+API_KEY = os.environ.get("AV_KEY", "demo")
 CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".cache")
 os.makedirs(CACHE_DIR, exist_ok=True)
 
