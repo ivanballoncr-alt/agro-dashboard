@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgroMercados — Latinoamérica · Datos Diarios</title>
+<title>AgroMercados â LatinoamÃ©rica Â· Datos Diarios</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -22,7 +22,7 @@ body::before{
     radial-gradient(ellipse 40% 25% at 88% 90%,rgba(168,255,111,.04) 0%,transparent 50%);
 }
 
-/* ─── HEADER ─── */
+/* âââ HEADER âââ */
 header{
   position:sticky;top:0;z-index:200;background:rgba(8,14,8,.96);
   backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
@@ -52,14 +52,14 @@ header{
 .status-chip.error{color:var(--red);border-color:rgba(255,91,91,.3);}
 .clock{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text3);}
 
-/* ─── TICKER ─── */
+/* âââ TICKER âââ */
 .ticker-wrap{background:var(--bg3);border-bottom:1px solid var(--border);padding:5px 0;overflow:hidden;white-space:nowrap;}
 .ticker-inner{display:inline-flex;animation:ticker 70s linear infinite;}
 .ticker-item{display:inline-block;margin:0 24px;font-family:'Space Mono',monospace;font-size:.68rem;color:var(--text2);}
 .ticker-sep{color:var(--text3);margin:0 4px;}
 @keyframes ticker{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
 
-/* ─── TOP BAR ─── */
+/* âââ TOP BAR âââ */
 .top-bar{
   display:flex;align-items:center;justify-content:space-between;
   padding:0 24px;border-bottom:1px solid var(--border);background:var(--bg2);
@@ -84,14 +84,14 @@ header{
 .pbtn:hover{color:var(--text2);border-color:var(--muted);}
 .pbtn.active{background:rgba(61,220,132,.11);border-color:var(--accent);color:var(--accent);}
 
-/* ─── MAIN GRID ─── */
+/* âââ MAIN GRID âââ */
 main{
   position:relative;z-index:1;padding:14px 24px;
   display:grid;grid-template-columns:1fr 1fr 1fr 280px;gap:12px;
   max-width:1560px;margin:0 auto;
 }
 
-/* ─── CARD ─── */
+/* âââ CARD âââ */
 .card{
   background:var(--card);border:1px solid var(--border);border-radius:10px;
   padding:14px;position:relative;overflow:hidden;transition:border-color .3s;
@@ -121,7 +121,7 @@ main{
 .mbtn:hover{color:var(--text2);}
 .mbtn.active{background:rgba(61,220,132,.1);border-color:rgba(61,220,132,.35);color:var(--accent);}
 
-/* ─── SKELETON / LOADER ─── */
+/* âââ SKELETON / LOADER âââ */
 .skel{background:linear-gradient(90deg,var(--border) 25%,var(--bg3) 50%,var(--border) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .overlay-load{
@@ -134,7 +134,7 @@ main{
 .spin{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ─── COMMODITIES ─── */
+/* âââ COMMODITIES âââ */
 .commodities-section{grid-column:1/4;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
 .comm-card{
   background:var(--card);border:1px solid var(--border);border-radius:10px;
@@ -153,7 +153,7 @@ main{
 .sparkline{margin-top:7px;height:30px;width:100%;}
 .up{color:var(--accent)} .down{color:var(--red)} .flat{color:var(--text3)}
 
-/* ─── WEATHER PANEL ─── */
+/* âââ WEATHER PANEL âââ */
 .weather-col{grid-column:4;grid-row:1/3;}
 .w-row{
   padding:8px 0;border-bottom:1px solid var(--border);
@@ -168,7 +168,7 @@ main{
 .w-temp{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;}
 .w-icon{font-size:.95rem;}
 
-/* ─── MAIN CHART ─── */
+/* âââ MAIN CHART âââ */
 .chart-col{grid-column:1/3;}
 .chart-wrap{height:215px;position:relative;margin-top:6px;}
 .chart-foot{
@@ -181,7 +181,7 @@ main{
 }
 .ohlc-item{color:var(--text3);} .ohlc-val{color:var(--text2);}
 
-/* ─── INPUTS ─── */
+/* âââ INPUTS âââ */
 .inputs-col{grid-column:3;}
 .inp-row{
   display:flex;align-items:center;gap:6px;
@@ -193,7 +193,7 @@ main{
 .inp-spark{flex-shrink:0;}
 .inp-chg{font-family:'Space Mono',monospace;font-size:.6rem;min-width:46px;text-align:right;}
 
-/* ─── ALERTS ─── */
+/* âââ ALERTS âââ */
 .alerts-col{grid-column:4;}
 .al-item{
   display:flex;gap:8px;padding:7px 0;
@@ -205,12 +205,12 @@ main{
 .al-title{font-size:.72rem;font-weight:500;line-height:1.35;}
 .al-time{font-family:'Space Mono',monospace;font-size:.57rem;color:var(--text3);margin-top:2px;}
 
-/* ─── ANNUAL CHARTS ─── */
+/* âââ ANNUAL CHARTS âââ */
 .annual-section{grid-column:1/4;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .mini-chart{height:115px;position:relative;margin-top:6px;}
 .chart-tag{margin-top:4px;font-family:'Space Mono',monospace;font-size:.56rem;color:var(--text3);display:flex;justify-content:space-between;}
 
-/* ─── INDICES ─── */
+/* âââ INDICES âââ */
 .indices-col{grid-column:4;}
 .idx-item{padding:9px 0;border-bottom:1px solid var(--border);}
 .idx-item:last-child{border-bottom:none;}
@@ -220,7 +220,7 @@ main{
 .idx-bar{margin-top:5px;height:2px;background:var(--border);border-radius:1px;overflow:hidden;}
 .idx-bar-fill{height:100%;border-radius:1px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1.2s;}
 
-/* ─── SEASON ─── */
+/* âââ SEASON âââ */
 .season-section{grid-column:1/5;}
 .season-grid{display:grid;grid-template-columns:88px repeat(12,1fr);gap:2px;margin-top:8px;}
 .s-lbl{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--text2);display:flex;align-items:center;}
@@ -231,7 +231,7 @@ main{
 .s-low{background:rgba(15,25,15,.9);color:var(--text3);}
 .s-rain{background:rgba(77,208,225,.14);color:var(--blue);}
 
-/* ─── RESPONSIVE ─── */
+/* âââ RESPONSIVE âââ */
 @media(max-width:1200px){
   main{grid-template-columns:1fr 1fr 270px;}
   .commodities-section{grid-column:1/3;grid-template-columns:repeat(3,1fr);}
@@ -257,7 +257,7 @@ main{
 .fade:nth-child(3){animation-delay:.09s}.fade:nth-child(4){animation-delay:.12s}
 .fade:nth-child(5){animation-delay:.15s}
 
-/* ─── SETUP MODAL ─── */
+/* âââ SETUP MODAL âââ */
 .modal-bg{
   position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;
   display:flex;align-items:center;justify-content:center;
@@ -315,21 +315,21 @@ main{
   <div class="logo">
     <div class="logo-dot"></div>
     AgroMercados
-    <span class="logo-sub">/ Latinoamérica · Datos Diarios</span>
+    <span class="logo-sub">/ LatinoamÃ©rica Â· Datos Diarios</span>
   </div>
   <div class="header-right">
-    <div class="status-chip loading" id="statusChip">⏳ Iniciando…</div>
+    <div class="status-chip loading" id="statusChip">â³ Iniciandoâ¦</div>
     <div class="live-badge"><div class="live-dot"></div>En vivo</div>
-    <div class="clock" id="clock">—</div>
+    <div class="clock" id="clock">â</div>
   </div>
 </header>
 
-<div class="ticker-wrap"><div class="ticker-inner" id="ticker">Conectando…</div></div>
+<div class="ticker-wrap"><div class="ticker-inner" id="ticker">Conectandoâ¦</div></div>
 
 <div class="top-bar">
   <div class="region-tabs">
-    <div class="tab active" onclick="setRegion('all',this)">Toda la Región</div>
-    <div class="tab" onclick="setRegion('ca',this)">Centroamérica</div>
+    <div class="tab active" onclick="setRegion('all',this)">Toda la RegiÃ³n</div>
+    <div class="tab" onclick="setRegion('ca',this)">CentroamÃ©rica</div>
     <div class="tab" onclick="setRegion('co',this)">Colombia</div>
     <div class="tab" onclick="setRegion('ve',this)">Venezuela</div>
     <div class="tab" onclick="setRegion('ec',this)">Ecuador</div>
@@ -350,7 +350,7 @@ main{
   <!-- COMMODITIES -->
   <div class="commodities-section" id="commSection">
     <div class="fade" style="grid-column:1/6;padding:28px;text-align:center;color:var(--text3);font-family:'Space Mono',monospace;font-size:.7rem;">
-      <div class="spin" style="margin:0 auto 10px"></div>Descargando precios diarios · Alpha Vantage…
+      <div class="spin" style="margin:0 auto 10px"></div>Descargando precios diarios Â· Alpha Vantageâ¦
     </div>
   </div>
 
@@ -358,10 +358,10 @@ main{
   <div class="weather-col">
     <div class="card" style="height:100%;position:relative">
       <div class="card-hdr">
-        <div class="card-title">🌦 Clima Agrícola · Ahora</div>
+        <div class="card-title">ð¦ Clima AgrÃ­cola Â· Ahora</div>
         <a href="https://open-meteo.com" target="_blank" class="src-badge">open-meteo.com</a>
       </div>
-      <div class="overlay-load" id="wLoad"><div class="spin"></div>Cargando clima…</div>
+      <div class="overlay-load" id="wLoad"><div class="spin"></div>Cargando climaâ¦</div>
       <div id="weatherList"></div>
     </div>
   </div>
@@ -371,7 +371,7 @@ main{
     <div class="card">
       <div class="card-hdr">
         <div>
-          <div class="card-title" id="chartTitle">📈 Precios Diarios · ☕ Café · 1 Año</div>
+          <div class="card-title" id="chartTitle">ð Precios Diarios Â· â CafÃ© Â· 1 AÃ±o</div>
           <div class="ohlc-bar" id="ohlcBar"></div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
@@ -386,12 +386,12 @@ main{
         </div>
       </div>
       <div class="chart-wrap" style="position:relative">
-        <div class="overlay-load" id="chartLoad"><div class="spin"></div>Descargando serie diaria…</div>
+        <div class="overlay-load" id="chartLoad"><div class="spin"></div>Descargando serie diariaâ¦</div>
         <canvas id="priceChart"></canvas>
       </div>
       <div class="chart-foot">
-        <span id="chartSrc">Fuente: Alpha Vantage · Commodities Daily</span>
-        <span id="chartRange">—</span>
+        <span id="chartSrc">Fuente: Alpha Vantage Â· Commodities Daily</span>
+        <span id="chartRange">â</span>
       </div>
     </div>
   </div>
@@ -400,12 +400,12 @@ main{
   <div class="inputs-col">
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">🧪 Insumos · Referencia Diaria</div>
+        <div class="card-title">ð§ª Insumos Â· Referencia Diaria</div>
         <a href="https://www.alphavantage.co" target="_blank" class="src-badge">Alpha Vantage</a>
       </div>
       <div id="inputsList">
         <div style="padding:16px 0;text-align:center;color:var(--text3);font-family:'Space Mono',monospace;font-size:.65rem;">
-          <div class="spin" style="margin:0 auto 8px"></div>Cargando…
+          <div class="spin" style="margin:0 auto 8px"></div>Cargandoâ¦
         </div>
       </div>
     </div>
@@ -414,7 +414,7 @@ main{
   <!-- ALERTS -->
   <div class="alerts-col">
     <div class="card">
-      <div class="card-title" style="margin-bottom:10px">⚠️ Alertas & Noticias</div>
+      <div class="card-title" style="margin-bottom:10px">â ï¸ Alertas & Noticias</div>
       <div id="alertsList"></div>
     </div>
   </div>
@@ -423,8 +423,8 @@ main{
   <div class="annual-section">
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">💧 Precipitación 12M (mm)</div>
-        <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" class="src-badge">ERA5 · open-meteo</a>
+        <div class="card-title">ð§ PrecipitaciÃ³n 12M (mm)</div>
+        <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" class="src-badge">ERA5 Â· open-meteo</a>
       </div>
       <div class="mini-chart" style="position:relative">
         <div class="overlay-load" id="precipLoad"><div class="spin"></div></div>
@@ -434,18 +434,18 @@ main{
     </div>
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">🌡 Temperatura 12M (°C)</div>
-        <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" class="src-badge">ERA5 · open-meteo</a>
+        <div class="card-title">ð¡ Temperatura 12M (Â°C)</div>
+        <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank" class="src-badge">ERA5 Â· open-meteo</a>
       </div>
       <div class="mini-chart" style="position:relative">
         <div class="overlay-load" id="tempLoad"><div class="spin"></div></div>
         <canvas id="tempChart"></canvas>
       </div>
-      <div class="chart-tag"><span id="tempNote">Media 4 capitales agrícolas</span><span style="color:var(--gold)">°C</span></div>
+      <div class="chart-tag"><span id="tempNote">Media 4 capitales agrÃ­colas</span><span style="color:var(--gold)">Â°C</span></div>
     </div>
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">⚖️ Comparativa Cultivos · % var.</div>
+        <div class="card-title">âï¸ Comparativa Cultivos Â· % var.</div>
         <a href="https://www.alphavantage.co" target="_blank" class="src-badge">Alpha Vantage</a>
       </div>
       <div class="mini-chart" style="position:relative">
@@ -459,7 +459,7 @@ main{
   <div class="indices-col">
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">📊 Índices · Calculados</div>
+        <div class="card-title">ð Ãndices Â· Calculados</div>
         <span class="src-badge">AV + FAO ref.</span>
       </div>
       <div id="indicesList"></div>
@@ -470,12 +470,12 @@ main{
   <div class="season-section">
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">🗓 Calendario Cosechas · Región · Año Completo</div>
+        <div class="card-title">ð Calendario Cosechas Â· RegiÃ³n Â· AÃ±o Completo</div>
         <div style="display:flex;gap:10px;font-size:.58rem;font-family:'Space Mono',monospace">
-          <span style="color:var(--accent)">■ Alta</span>
-          <span style="color:var(--gold)">■ Media</span>
-          <span style="color:var(--text3)">■ Baja</span>
-          <span style="color:var(--blue)">■ Lluvia</span>
+          <span style="color:var(--accent)">â  Alta</span>
+          <span style="color:var(--gold)">â  Media</span>
+          <span style="color:var(--text3)">â  Baja</span>
+          <span style="color:var(--blue)">â  Lluvia</span>
         </div>
       </div>
       <div class="season-grid" id="seasonGrid"></div>
@@ -487,67 +487,67 @@ main{
 <!-- SETUP MODAL -->
 <div class="modal-bg hidden" id="setupModal">
   <div class="modal">
-    <span class="modal-icon" id="modalIcon">⚙️</span>
-    <h2 id="modalTitle">Configuración requerida</h2>
+    <span class="modal-icon" id="modalIcon">âï¸</span>
+    <h2 id="modalTitle">ConfiguraciÃ³n requerida</h2>
     <p class="modal-sub" id="modalSub"></p>
     <div class="modal-steps" id="modalSteps"></div>
     <p class="modal-note" id="modalNote"></p>
-    <button class="modal-retry" onclick="retryConnection()">↻ Reintentar conexión</button>
+    <button class="modal-retry" onclick="retryConnection()">â» Reintentar conexiÃ³n</button>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  CONFIG
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
-const API = "http://localhost:5000/api";
+const API = (location.hostname === "localhost" || location.hostname === "127.0.0.1") ? "http://localhost:5000/api" : "/api";
 
 const COMMODITIES_META = {
-  cafe:   { name:"Café Arábica",  icon:"☕", exchange:"ICE" },
-  maiz:   { name:"Maíz",          icon:"🌽", exchange:"CBOT" },
-  arroz:  { name:"Arroz",         icon:"🌾", exchange:"CBOT" },
-  azucar: { name:"Azúcar #11",    icon:"🎋", exchange:"ICE" },
-  banano: { name:"Soya (ref.)",   icon:"🍌", exchange:"CBOT" },
+  cafe:   { name:"CafÃ© ArÃ¡bica",  icon:"â", exchange:"ICE" },
+  maiz:   { name:"MaÃ­z",          icon:"ð½", exchange:"CBOT" },
+  arroz:  { name:"Arroz",         icon:"ð¾", exchange:"CBOT" },
+  azucar: { name:"AzÃºcar #11",    icon:"ð", exchange:"ICE" },
+  banano: { name:"Soya (ref.)",   icon:"ð", exchange:"CBOT" },
 };
 
 const INPUTS_META = [
   { id:"urea",    name:"Urea / CF Industries",  staticPrice:null, unit:"USD", change:null },
   { id:"potasio", name:"Potasio / Mosaic Co.",  staticPrice:null, unit:"USD", change:null },
-  { id:"petroleo",name:"Petróleo WTI (diesel)", staticPrice:null, unit:"USD/barril", change:null },
+  { id:"petroleo",name:"PetrÃ³leo WTI (diesel)", staticPrice:null, unit:"USD/barril", change:null },
   // Static reference (no direct API)
   { id:null, name:"Glifosato",       staticPrice:"4.80",  unit:"USD/L",   change:+2.8 },
   { id:null, name:"DAP Fertiliz.",   staticPrice:"520",   unit:"USD/t",   change:-4.1 },
-  { id:null, name:"Semilla Maíz H",  staticPrice:"85",    unit:"USD/kg",  change:0.0  },
+  { id:null, name:"Semilla MaÃ­z H",  staticPrice:"85",    unit:"USD/kg",  change:0.0  },
   { id:null, name:"Fungicida",       staticPrice:"7.20",  unit:"USD/kg",  change:-1.8 },
-  { id:null, name:"Energía Riego",   staticPrice:"0.09",  unit:"USD/kWh", change:+12.5},
+  { id:null, name:"EnergÃ­a Riego",   staticPrice:"0.09",  unit:"USD/kWh", change:+12.5},
 ];
 
 const ALERTS = [
-  {type:"danger", title:"Sequía severa en Valle del Cauca — maíz y caña en riesgo",      time:"hace 1h",  region:"co"},
-  {type:"warning",title:"Heladas en sierra ecuatoriana — café y maíz afectados",          time:"hace 3h",  region:"ec"},
-  {type:"info",   title:"Café Arábica sube 4.2% · máximo de 6 meses en ICE",             time:"hace 2h",  region:"co"},
+  {type:"danger", title:"SequÃ­a severa en Valle del Cauca â maÃ­z y caÃ±a en riesgo",      time:"hace 1h",  region:"co"},
+  {type:"warning",title:"Heladas en sierra ecuatoriana â cafÃ© y maÃ­z afectados",          time:"hace 3h",  region:"ec"},
+  {type:"info",   title:"CafÃ© ArÃ¡bica sube 4.2% Â· mÃ¡ximo de 6 meses en ICE",             time:"hace 2h",  region:"co"},
   {type:"warning",title:"Lluvias intensas en CA afectan cosecha de banano",               time:"hace 5h",  region:"ca"},
-  {type:"info",   title:"FAO: índice alimentos sube 2.1% en febrero 2026",               time:"hace 6h",  region:"all"},
-  {type:"danger", title:"Venezuela: escasez de insumos eleva costo producción 18%",      time:"hace 8h",  region:"ve"},
-  {type:"warning",title:"Riesgo El Niño moderado Q2 — monitoreo hídrico activo en CA",   time:"hace 12h", region:"ca"},
+  {type:"info",   title:"FAO: Ã­ndice alimentos sube 2.1% en febrero 2026",               time:"hace 6h",  region:"all"},
+  {type:"danger", title:"Venezuela: escasez de insumos eleva costo producciÃ³n 18%",      time:"hace 8h",  region:"ve"},
+  {type:"warning",title:"Riesgo El NiÃ±o moderado Q2 â monitoreo hÃ­drico activo en CA",   time:"hace 12h", region:"ca"},
 ];
 
 const SEASON_DATA = {
-  "Maíz":  ["low","low","mid","high","high","mid","low","low","mid","high","high","mid"],
+  "MaÃ­z":  ["low","low","mid","high","high","mid","low","low","mid","high","high","mid"],
   "Arroz": ["mid","low","low","mid","high","high","high","mid","low","low","mid","mid"],
-  "Caña":  ["high","high","high","mid","mid","low","low","mid","high","high","high","high"],
-  "Café":  ["mid","mid","low","low","low","mid","high","high","high","high","mid","mid"],
+  "CaÃ±a":  ["high","high","high","mid","mid","low","low","mid","high","high","high","high"],
+  "CafÃ©":  ["mid","mid","low","low","low","mid","high","high","high","high","mid","mid"],
   "Banano":["mid","mid","mid","mid","high","high","high","high","high","mid","mid","mid"],
   "Lluvia":["low","low","mid","rain","rain","rain","rain","rain","rain","mid","low","low"],
 };
 
 const MONTHS = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  STATE
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 let commData     = {};   // { id: { series:[{date,open,high,low,close,volume}], ...meta } }
 let inputData    = {};   // { id: { series:[...] } }
@@ -564,9 +564,9 @@ let totalExpected  = 0;
 
 let priceChart=null, precipChart=null, tempChart=null, compareChart=null;
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  FETCH HELPERS
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 async function apiFetch(path) {
   const r = await fetch(API + path);
@@ -574,9 +574,9 @@ async function apiFetch(path) {
   return r.json();
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  DATA LOAD
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 async function loadCommodities() {
   const ids = Object.keys(COMMODITIES_META);
@@ -651,9 +651,9 @@ async function loadClimate() {
   } catch(e) { console.warn("Climate:", e); }
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  HELPERS
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function sliceSeries(id, days) {
   const s = commData[id]?.series || [];
@@ -678,7 +678,7 @@ function getStats(id, days) {
 }
 
 function fmtDate(d) {
-  if (!d) return "—";
+  if (!d) return "â";
   const [y,m,dy] = d.split("-");
   return `${dy}/${MONTHS[parseInt(m)-1]}/${y.slice(2)}`;
 }
@@ -690,14 +690,14 @@ function monthLbl(ym) {
 
 function periodDays(n) {
   if(n===30)return"1 mes"; if(n===90)return"3 meses";
-  if(n===180)return"6 meses"; if(n===365)return"1 año";
-  if(n===730)return"2 años"; return`${Math.round(n/365)} años`;
+  if(n===180)return"6 meses"; if(n===365)return"1 aÃ±o";
+  if(n===730)return"2 aÃ±os"; return`${Math.round(n/365)} aÃ±os`;
 }
 
 function weatherIcon(code) {
-  if(code===0)return"☀️"; if(code<=2)return"🌤"; if(code<=3)return"⛅";
-  if(code<=49)return"🌫"; if(code<=67)return"🌧"; if(code<=77)return"🌨";
-  if(code<=82)return"🌦"; return"⛈";
+  if(code===0)return"âï¸"; if(code<=2)return"ð¤"; if(code<=3)return"â";
+  if(code<=49)return"ð«"; if(code<=67)return"ð§"; if(code<=77)return"ð¨";
+  if(code<=82)return"ð¦"; return"â";
 }
 
 function updateStatus() {
@@ -705,16 +705,16 @@ function updateStatus() {
   const hasAll = Object.keys(COMMODITIES_META).every(id => commData[id]);
   if (hasAll) {
     chip.className = "status-chip ok";
-    chip.textContent = "✓ Datos reales · Alpha Vantage";
+    chip.textContent = "â Datos reales Â· Alpha Vantage";
   } else if (loadedCount > 0) {
     chip.className = "status-chip loading";
-    chip.textContent = `⏳ ${loadedCount}/${totalExpected} cargados…`;
+    chip.textContent = `â³ ${loadedCount}/${totalExpected} cargadosâ¦`;
   }
 }
 
-// ═══════════════════════════════════════════════════
-//  RENDER — COMMODITIES
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
+//  RENDER â COMMODITIES
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function renderCommodities() {
   const el = document.getElementById("commSection");
@@ -726,17 +726,17 @@ function renderCommodities() {
     const y1 = getStats(id, 365);
     const hasData = stats.last !== null;
     const isUp = stats.pct >= 0;
-    const cls = isUp?"up":"down", arr=isUp?"▲":"▼";
+    const cls = isUp?"up":"down", arr=isUp?"â²":"â¼";
     const sel = selComm===id?"sel":"";
     const lastEntry = av?.series?.[av.series.length-1];
-    const srcLabel = av?.source?.split("·")?.[0]?.trim() || "—";
+    const srcLabel = av?.source?.split("Â·")?.[0]?.trim() || "â";
 
     el.innerHTML += `
       <div class="comm-card fade ${sel}" onclick="selectComm('${id}')">
         <span class="comm-icon">${meta.icon}</span>
         <div class="comm-name">${meta.name}</div>
         <div>
-          <span class="comm-price">${hasData ? stats.last.toFixed(3) : "…"}</span>
+          <span class="comm-price">${hasData ? stats.last.toFixed(3) : "â¦"}</span>
           <span class="comm-unit">${av?.unit||""}</span>
         </div>
         <div class="comm-chg ${cls}">
@@ -745,12 +745,12 @@ function renderCommodities() {
         </div>
         <div class="comm-stats">
           <span>1A:</span><span class="sv ${y1.pct>=0?"up":"down"}">${y1.pct>=0?"+":""}${y1.pct}%</span>
-          <span>Mín:</span><span class="sv">${stats.min??"—"}</span>
-          <span>Máx:</span><span class="sv">${stats.max??"—"}</span>
-          <span>Vol:</span><span class="sv">${stats.vol>0?(stats.vol/1000).toFixed(0)+"k":"—"}</span>
+          <span>MÃ­n:</span><span class="sv">${stats.min??"â"}</span>
+          <span>MÃ¡x:</span><span class="sv">${stats.max??"â"}</span>
+          <span>Vol:</span><span class="sv">${stats.vol>0?(stats.vol/1000).toFixed(0)+"k":"â"}</span>
         </div>
         <svg class="sparkline" id="spk-${id}" viewBox="0 0 100 30" preserveAspectRatio="none"></svg>
-        <div class="comm-src">${meta.exchange} · ${fmtDate(lastEntry?.date)}</div>
+        <div class="comm-src">${meta.exchange} Â· ${fmtDate(lastEntry?.date)}</div>
       </div>`;
   });
   Object.keys(COMMODITIES_META).forEach(id => drawSparkline(id));
@@ -769,9 +769,9 @@ function drawSparkline(id) {
   el.innerHTML = `<polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>`;
 }
 
-// ═══════════════════════════════════════════════════
-//  RENDER — WEATHER
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
+//  RENDER â WEATHER
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function renderWeather() {
   const el = document.getElementById("weatherList");
@@ -781,26 +781,26 @@ function renderWeather() {
   const list = show.length ? show : weatherNow;
   list.forEach(w => {
     if (w.error) return;
-    const frost = w.temp < 5 ? `<span style="color:var(--blue);font-size:.52rem;margin-left:3px">❄</span>` : "";
+    const frost = w.temp < 5 ? `<span style="color:var(--blue);font-size:.52rem;margin-left:3px">â</span>` : "";
     const rainPct = Math.min(100, (w.precip||0) * 150);
     el.innerHTML += `
       <div class="w-row">
         <div>
           <div class="w-region">${w.region}${frost}</div>
-          <div class="w-meta">💨 ${w.wind} km/h · ${w.precip?.toFixed(1)||0} mm</div>
+          <div class="w-meta">ð¨ ${w.wind} km/h Â· ${w.precip?.toFixed(1)||0} mm</div>
           <div class="rain-bar"><div class="rain-fill" style="width:${rainPct}%"></div></div>
         </div>
         <div class="w-right">
           <span class="w-icon">${weatherIcon(w.code||0)}</span>
-          <div class="w-temp">${(+w.temp).toFixed(1)}°C</div>
+          <div class="w-temp">${(+w.temp).toFixed(1)}Â°C</div>
         </div>
       </div>`;
   });
 }
 
-// ═══════════════════════════════════════════════════
-//  RENDER — INPUTS
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
+//  RENDER â INPUTS
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function renderInputs() {
   const el = document.getElementById("inputsList");
@@ -820,7 +820,7 @@ function renderInputs() {
     } else { return; }
 
     const cls = chg>0?"up":chg<0?"down":"flat";
-    const arr = chg>0?"▲":chg<0?"▼":"—";
+    const arr = chg>0?"â²":chg<0?"â¼":"â";
     const sparkId = `ispk-${i}`;
 
     el.innerHTML += `
@@ -848,9 +848,9 @@ function renderInputs() {
   });
 }
 
-// ═══════════════════════════════════════════════════
-//  RENDER — ALERTS
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
+//  RENDER â ALERTS
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function renderAlerts() {
   const el = document.getElementById("alertsList");
@@ -865,9 +865,9 @@ function renderAlerts() {
   });
 }
 
-// ═══════════════════════════════════════════════════
-//  RENDER — INDICES
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
+//  RENDER â INDICES
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function renderIndices() {
   const el = document.getElementById("indicesList");
@@ -879,28 +879,28 @@ function renderIndices() {
 
   const indices = [
     {
-      lbl: "Var. Media Cultivos · 12M",
-      val: loaded.length ? (avgChg>=0?`+${avgChg.toFixed(1)}%`:`${avgChg.toFixed(1)}%`) : "…",
-      sub: "Café · Maíz · Azúcar · Soya",
+      lbl: "Var. Media Cultivos Â· 12M",
+      val: loaded.length ? (avgChg>=0?`+${avgChg.toFixed(1)}%`:`${avgChg.toFixed(1)}%`) : "â¦",
+      sub: "CafÃ© Â· MaÃ­z Â· AzÃºcar Â· Soya",
       bar: Math.min(100,50+avgChg*2), color: avgChg>=0?"var(--accent2)":"var(--red)"
     },
     {
-      lbl: "Café Arábica · Último",
-      val: cafeStats.last ? `$${cafeStats.last.toFixed(3)}` : "…",
-      sub: `ICE · ${cafeStats.pct>=0?"+":""}${cafeStats.pct}% (período)`,
+      lbl: "CafÃ© ArÃ¡bica Â· Ãltimo",
+      val: cafeStats.last ? `$${cafeStats.last.toFixed(3)}` : "â¦",
+      sub: `ICE Â· ${cafeStats.pct>=0?"+":""}${cafeStats.pct}% (perÃ­odo)`,
       bar: 72, color:"var(--accent)"
     },
     {
-      lbl: "Índice Alimentos FAO (ref.)",
-      val: "118.5", sub: "Feb 2026 · base 2014-16=100",
+      lbl: "Ãndice Alimentos FAO (ref.)",
+      val: "118.5", sub: "Feb 2026 Â· base 2014-16=100",
       bar: 65, color:"var(--gold)"
     },
     {
-      lbl: "Petróleo WTI (costo diesel)",
+      lbl: "PetrÃ³leo WTI (costo diesel)",
       val: inputData.petroleo?.series?.length
         ? `$${inputData.petroleo.series[inputData.petroleo.series.length-1].close.toFixed(2)}`
-        : "…",
-      sub: "USD/barril · referencia insumos",
+        : "â¦",
+      sub: "USD/barril Â· referencia insumos",
       bar: 58, color:"var(--orange)"
     },
   ];
@@ -916,9 +916,9 @@ function renderIndices() {
   });
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  CHARTS
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 const BASE = {
   responsive:true, maintainAspectRatio:false, animation:{duration:350},
@@ -965,13 +965,13 @@ function updateMainChart() {
   priceChart.data.labels = s.map(d => fmtDate(d.date));
   priceChart.data.datasets[0].data = s.map(d => d.close ?? d.open);
   document.getElementById("chartTitle").textContent =
-    `📈 Precios Diarios · ${meta?.icon} ${meta?.name} · ${periodDays(chartPeriod)}`;
+    `ð Precios Diarios Â· ${meta?.icon} ${meta?.name} Â· ${periodDays(chartPeriod)}`;
   document.getElementById("chartSrc").textContent =
-    `Fuente: ${av?.source || "Alpha Vantage"} · ${meta?.exchange||""}`;
+    `Fuente: ${av?.source || "Alpha Vantage"} Â· ${meta?.exchange||""}`;
   if (s.length) {
     const first = s[0], last = s[s.length-1];
     document.getElementById("chartRange").textContent =
-      `${fmtDate(first.date)} → ${fmtDate(last.date)} · ${s.length} sesiones`;
+      `${fmtDate(first.date)} â ${fmtDate(last.date)} Â· ${s.length} sesiones`;
     // OHLC for last session
     const ohlc = document.getElementById("ohlcBar");
     if (last.open != null) {
@@ -991,7 +991,7 @@ function renderPrecipChart() {
   const labels = precipMonths.map(m => monthLbl(m.label));
   const data   = precipMonths.map(m => m.value);
   const total  = data.reduce((a,b)=>a+b,0);
-  document.getElementById("precipNote").textContent = `Total 12M: ${total.toFixed(0)} mm · 4 regiones`;
+  document.getElementById("precipNote").textContent = `Total 12M: ${total.toFixed(0)} mm Â· 4 regiones`;
   precipChart = new Chart(ctx, {
     type:"bar",
     data:{ labels, datasets:[{ data, backgroundColor:"rgba(77,208,225,.4)", borderColor:"rgba(77,208,225,.8)", borderWidth:1, borderRadius:3 }]},
@@ -1009,7 +1009,7 @@ function renderTempChart() {
   const labels = valid.map(m=>monthLbl(m.label));
   const data   = valid.map(m=>m.value);
   const avg    = data.length ? data.reduce((a,b)=>a+b,0)/data.length : 0;
-  document.getElementById("tempNote").textContent = `Media 12M: ${avg.toFixed(1)}°C · 4 capitales`;
+  document.getElementById("tempNote").textContent = `Media 12M: ${avg.toFixed(1)}Â°C Â· 4 capitales`;
   const tg = ctx.createLinearGradient(0,0,0,115);
   tg.addColorStop(0,"rgba(244,197,66,.18)"); tg.addColorStop(1,"rgba(244,197,66,0)");
   tempChart = new Chart(ctx, {
@@ -1017,7 +1017,7 @@ function renderTempChart() {
     data:{ labels, datasets:[{ data, borderColor:"#f4c542", backgroundColor:tg, borderWidth:1.6, pointRadius:2, pointHoverRadius:4, fill:true, tension:.4 }]},
     options:{...BASE, scales:{
       x:{grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7},maxRotation:40}},
-      y:{position:"right",grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7},callback:v=>v+"°"}},
+      y:{position:"right",grid:{color:"rgba(24,38,24,.3)"},ticks:{color:"#3e5c3e",font:{family:"Space Mono",size:7},callback:v=>v+"Â°"}},
     }},
   });
 }
@@ -1036,7 +1036,7 @@ function renderCompareChart() {
     return { label:COMMODITIES_META[id].name, data, borderColor:colors[i], backgroundColor:"transparent", borderWidth:1.4, pointRadius:0, tension:.3 };
   }).filter(Boolean);
   if (!datasets.length) return;
-  // All series may have different lengths — use the longest as label base
+  // All series may have different lengths â use the longest as label base
   const main = datasets.reduce((a,b)=>b.data.length>a.data.length?b:a);
   const mainSeries = sliceSeries(ids[datasets.indexOf(main)], currentPeriod);
   const labels = mainSeries.map(d=>fmtDate(d.date));
@@ -1057,9 +1057,9 @@ function renderCompareChart() {
   });
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  TICKER
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function renderTicker() {
   const el = document.getElementById("ticker");
@@ -1067,7 +1067,7 @@ function renderTicker() {
   Object.keys(COMMODITIES_META).forEach(id => {
     const av = commData[id]; if (!av?.series?.length) return;
     const s1 = getStats(id, 1), s365 = getStats(id, 365);
-    const cls = s1.pct>=0?"up":"down", arr=s1.pct>=0?"▲":"▼";
+    const cls = s1.pct>=0?"up":"down", arr=s1.pct>=0?"â²":"â¼";
     h += `<span class="ticker-item">${COMMODITIES_META[id].icon} ${COMMODITIES_META[id].name.toUpperCase()} <span class="${cls}">${s1.last?.toFixed(3)} ${av.unit} ${arr}${Math.abs(s1.pct)}%</span> <span style="color:var(--text3)">1A:${s365.pct>=0?"+":""}${s365.pct}%</span></span><span class="ticker-sep">|</span>`;
   });
   Object.keys(inputData).forEach(id => {
@@ -1081,31 +1081,31 @@ function renderTicker() {
   if (h) el.innerHTML = h + h;
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  SEASON CALENDAR
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function renderSeason() {
   const g = document.getElementById("seasonGrid");
   const nowM = new Date().getMonth();
   g.innerHTML = `<div></div>`;
   MONTHS.forEach((m,i) => {
-    g.innerHTML += `<div class="s-mhdr" style="${i===nowM?"color:var(--accent);font-weight:700":""}">${m}${i===nowM?" ◀":""}</div>`;
+    g.innerHTML += `<div class="s-mhdr" style="${i===nowM?"color:var(--accent);font-weight:700":""}">${m}${i===nowM?" â":""}</div>`;
   });
   Object.entries(SEASON_DATA).forEach(([crop,lvls]) => {
     g.innerHTML += `<div class="s-lbl">${crop}</div>`;
     lvls.forEach((lvl,i) => {
       const cls = lvl==="high"?"s-high":lvl==="mid"?"s-mid":lvl==="rain"?"s-rain":"s-low";
-      const lbl = lvl==="high"?"●●●":lvl==="mid"?"●●":lvl==="rain"?"🌧":"·";
+      const lbl = lvl==="high"?"âââ":lvl==="mid"?"ââ":lvl==="rain"?"ð§":"Â·";
       const border = i===nowM?"outline:1px solid rgba(61,220,132,.35);":"";
       g.innerHTML += `<div class="s-cell ${cls}" style="${border}">${lbl}</div>`;
     });
   });
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  INTERACTIONS
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function selectComm(id) {
   selComm = id;
@@ -1139,20 +1139,20 @@ function setChartPeriod(days, el) {
   updateMainChart();
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  CLOCK & AUTO-REFRESH
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function tick() {
   const now = new Date();
   document.getElementById("clock").textContent =
     now.toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit",second:"2-digit"}) +
-    " · " + now.toLocaleDateString("es",{weekday:"short",day:"numeric",month:"short"});
+    " Â· " + now.toLocaleDateString("es",{weekday:"short",day:"numeric",month:"short"});
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  SETUP MODAL
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 function showSetupModal(type) {
   const modal   = document.getElementById("setupModal");
@@ -1165,15 +1165,15 @@ function showSetupModal(type) {
   modal.classList.remove("hidden");
 
   if (type === "no-server") {
-    icon.textContent  = "🖥️";
-    title.textContent = "El servidor proxy no está corriendo";
+    icon.textContent  = "ð¥ï¸";
+    title.textContent = "El servidor proxy no estÃ¡ corriendo";
     sub.textContent   = "El dashboard necesita un servidor local para obtener datos reales de Alpha Vantage (resuelve CORS). Sigue estos pasos:";
     steps.innerHTML = `
       <div class="modal-step">
         <span class="step-num">1</span>
         <div class="step-content">
-          <strong>Obtén tu clave gratuita de Alpha Vantage</strong>
-          Regístrate en 30 segundos (solo email + nombre):<br>
+          <strong>ObtÃ©n tu clave gratuita de Alpha Vantage</strong>
+          RegÃ­strate en 30 segundos (solo email + nombre):<br>
           <a href="https://www.alphavantage.co/support/#api-key" target="_blank" class="modal-link">alphavantage.co/support/#api-key</a>
         </div>
       </div>
@@ -1203,28 +1203,28 @@ function showSetupModal(type) {
       <div class="modal-step">
         <span class="step-num">5</span>
         <div class="step-content">
-          <strong>Recarga esta página</strong>
-          Una vez que el servidor esté corriendo, haz clic en "Reintentar" abajo.
+          <strong>Recarga esta pÃ¡gina</strong>
+          Una vez que el servidor estÃ© corriendo, haz clic en "Reintentar" abajo.
         </div>
       </div>`;
-    note.textContent = "El servidor corre solo en tu computadora (localhost:5000) · No se expone en internet";
+    note.textContent = "El servidor corre solo en tu computadora (localhost:5000) Â· No se expone en internet";
 
   } else if (type === "no-key") {
-    icon.textContent  = "🔑";
+    icon.textContent  = "ð";
     title.textContent = "Falta configurar la clave de API";
-    sub.textContent   = "El servidor está corriendo pero sin clave de Alpha Vantage. Detén el servidor y reinícialo con tu clave:";
+    sub.textContent   = "El servidor estÃ¡ corriendo pero sin clave de Alpha Vantage. DetÃ©n el servidor y reinÃ­cialo con tu clave:";
     steps.innerHTML = `
       <div class="modal-step">
         <span class="step-num">1</span>
         <div class="step-content">
-          <strong>Obtén tu clave gratuita (30 segundos)</strong>
+          <strong>ObtÃ©n tu clave gratuita (30 segundos)</strong>
           <a href="https://www.alphavantage.co/support/#api-key" target="_blank" class="modal-link">alphavantage.co/support/#api-key</a>
         </div>
       </div>
       <div class="modal-step">
         <span class="step-num">2</span>
         <div class="step-content">
-          <strong>Detén el servidor actual</strong>
+          <strong>DetÃ©n el servidor actual</strong>
           Presiona <code>Ctrl + C</code> en la terminal donde corre.
         </div>
       </div>
@@ -1235,7 +1235,7 @@ function showSetupModal(type) {
           <code>python server.py TU_CLAVE_AQUI</code>
         </div>
       </div>`;
-    note.textContent = "Plan gratuito: 25 llamadas/día · El caché inteligente evita agotar el límite";
+    note.textContent = "Plan gratuito: 25 llamadas/dÃ­a Â· El cachÃ© inteligente evita agotar el lÃ­mite";
   }
 }
 
@@ -1243,7 +1243,7 @@ async function retryConnection() {
   const modal = document.getElementById("setupModal");
   const chip  = document.getElementById("statusChip");
   chip.className   = "status-chip loading";
-  chip.textContent = "⏳ Reintentando…";
+  chip.textContent = "â³ Reintentandoâ¦";
   try {
     const st = await apiFetch("/status");
     if (!st.api_key_set) {
@@ -1252,7 +1252,7 @@ async function retryConnection() {
     }
     modal.classList.add("hidden");
     chip.className   = "status-chip ok";
-    chip.textContent = "✓ Conectado";
+    chip.textContent = "â Conectado";
     // Load data
     await Promise.all([ loadCommodities(), loadInputs(), loadWeather(), loadClimate() ]);
     renderIndices();
@@ -1260,14 +1260,14 @@ async function retryConnection() {
     setInterval(() => { loadCommodities(); loadInputs(); renderIndices(); }, 4 * 60 * 60 * 1000);
   } catch(e) {
     chip.className   = "status-chip error";
-    chip.textContent = "❌ Servidor offline";
+    chip.textContent = "â Servidor offline";
     showSetupModal("no-server");
   }
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  INIT
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 window.addEventListener("load", async () => {
   renderAlerts();
@@ -1280,13 +1280,13 @@ window.addEventListener("load", async () => {
     const st = await apiFetch("/status");
     if (!st.api_key_set) {
       document.getElementById("statusChip").className = "status-chip error";
-      document.getElementById("statusChip").textContent = "⚠ Sin clave API";
+      document.getElementById("statusChip").textContent = "â  Sin clave API";
       showSetupModal("no-key");
       return;
     }
   } catch(e) {
     document.getElementById("statusChip").className = "status-chip error";
-    document.getElementById("statusChip").textContent = "❌ Servidor offline";
+    document.getElementById("statusChip").textContent = "â Servidor offline";
     showSetupModal("no-server");
     return;
   }
