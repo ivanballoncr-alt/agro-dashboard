@@ -70,6 +70,8 @@ def save_cache(key, data):
 def add_cors(resp):
     resp.headers["Access-Control-Allow-Origin"] = "*"
     resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    if resp.content_type and "text/html" in resp.content_type:
+        resp.headers["Content-Type"] = "text/html; charset=utf-8"
     return resp
 
 @app.route("/")
