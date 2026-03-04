@@ -76,7 +76,7 @@ def add_cors(resp):
 
 @app.route("/")
 def index():
-    return send_from_directory("static", "index.html")
+    return send_from_directory(static", "index.html")
 
 @app.route("/static/<path:path>")
 def static_files(path):
@@ -95,21 +95,24 @@ def commodity(cid):
     av_function = COMMODITY_ENDPOINTS.get(sym)
     meta = SYMBOLS[cid]
     if av_function:
-        url = f"https://www.alphavantage.co/query?function={av_function}&interval=daily&datatype=json&apikey={API_KEY}"
+        url = f"https://www.alphavantage.co/query?function={av_function}&interval=monthly&datatype=json&apikey={API_KEY}"
         try:
             r = requests.get(url, timeout=15)
             r.raise_for_status()
             raw = r.json()
             if "data" not in raw:
                 raise ValueError(str(raw))
-            series = sorted([{"date": d["date"], "open": float(d["value"]), "high": float(d["value"]), "low": float(d["value"]), "close": float(d["value"]), "volume": 0} for d in raw["data"] if d["value"] != "."], key=lambda x: x["date"])
-            result = {"id": cid, "symbol": sym, "name": meta["name"], "unit": meta["unit"], "icon": meta["icon"], "exchange": meta["exchange"], "source": f"Alpha Vantage {av_function}", series: series}
+            series = sorted([
+                {"date": item["date"], "close": float(item["value"]), "open": float(item["value"]), "high": float(item["value"]), "low": float(item["value"]), "volume": 0}
+                for item in raw["data"] if isinstance(item, dict) and item.get("value", ".") != "."
+            ], key=lambda x: x["date"])
+            result = {"id": cid, "symbol": sym, "name": meta["name"], "unit": meta["unit"], "icon": meta["icon"], "exchange": meta["exchange"], "source": f"Alpha Vantage {av_function}", "series": series}
             save_cache(cache_key, result)
             return jsonify(result)
         except Exception as e:
             return jsonify({"error": str(e)}), 502
     else:
-        url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={sym}&outputsize=full&datatype=json&apikey={API_KEY}"
+        url = f"https://www.alphavantage.co/query?function=TEME_SERIES_DAILY&symbol={sym}&outputsize=full&datatype=json&apikey={API_KEY}"
         try:
             r = requests.get(url, timeout=15)
             r.raise_for_status()
@@ -117,7 +120,7 @@ def commodity(cid):
             ts = raw.get("Time Series (Daily)")
             if not ts:
                 raise ValueError(str(raw))
-            series = sorted([{"date": d, "open": float(v["1. open"]), "high": float(v["2. high"]), "low": float(v["3. low"]), "close": float(v["4. close"]), "volume": int(float(v["5. volume"]))} for d, v in ts.items()], key=lambda x: x["date"])
+            series = sorted([{"date": d, "close": float(v["4. close"]), "open": float(v["1. open"]), "high": float(v["2. high"]), "low": float(v["3. low"]), "volume": int(float(v["5. volume"]))} for d, v in ts.items()], key=lambda x: x["date"])
             result = {"id": cid, "symbol": sym, "name": meta["name"], "unit": meta["unit"], "icon": meta["icon"], "exchange": meta["exchange"], "source": f"Alpha Vantage {sym}", "series": series}
             save_cache(cache_key, result)
             return jsonify(result)
@@ -133,7 +136,7 @@ def input_price(iid):
     cached = load_cache(cache_key, max_age_seconds=4 * 3600)
     if cached:
         return jsonify(cached)
-    url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={sym}&outputsize=full&datatype=json&apikey={API_KEY}"
+    url = f"https://www.alphavantage.co/query?function=TEME_SERIES_DAILY&symbol={sym}&outputsize=full&datatype=json&apikey={API_KEY}"
     try:
         r = requests.get(url, timeout=15)
         r.raise_for_status()
@@ -181,7 +184,7 @@ def weather_history():
     results = []
     for loc in WEATHER_LOCS[:4]:
         try:
-            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={loc['lat']}&longitude={loc['lon']}&start_date={start_date}&end_date={end_date}&daily=precipitation_sum,temperature_2m_mean,temperature_2m_max,temperature_2m_min&timezone=auto"
+            url = f"https://archive-api.open-meteo.com/v1/archive?latitude={loc['lat']}&longitude={loc['lon']}&start_date={start_date}&end_date={end_date}&daily=precipitation_sum,temperature_2m_mean&timezone=auto"
             r = requests.get(url, timeout=20)
             r.raise_for_status()
             j = r.json()
@@ -195,11 +198,11 @@ def weather_history():
                     by_month[mk]["precip"].append(d["precipitation_sum"][i])
                 if d["temperature_2m_mean"][i] is not None:
                     by_month[mk]["temp"].append(d["temperature_2m_mean"][i])
-            monthly = [{"month": mk, "precip_mm": round(sum(v["precip"]), 1) if v["precip"] else None, "temp_mean": round(sum(v["temp"]) / len(v["temp"]), 1) if v["temp"] else None} for mk in sorted(by_month.keys()) for v in [by_month[mk]]]
+            monthly = [{"month": mk, "precip_mm": round(sum(v["precip"]), 1) if v["precip"] else None, "temp_mean": round(sum(v["temp"]) / len(v["temp"]), 1) if v["temp"] else None} for mk, v in sorted(by_month.items())]
             results.append({"region": loc["region"], "country": loc["country"], "monthly": monthly})
         except Exception as e:
             results.append({"region": loc["region"], "country": loc["country"], "error": str(e)})
-    data = {"updated": datetime.utcnow().isoformat(), "locations": results, "source": "ERA5 via Open-Meteo Archive API"}
+    data = {"updated": datetime.utcnow().isoformat(), "locations": results, "source": "EQA5 via Open-Meteo Archive API"}
     save_cache(cache_key, data)
     return jsonify(data)
 
@@ -211,9 +214,5 @@ def status():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     host = "0.0.0.0"
-    if API_KEY == "demo":
-        print("AV_KEY no configurada")
-    else:
-        print(f"Clave: {API_KEY[:4]}****")
-    print(f"Servidor en http://{host}:{port}")
+    print(f"Servidor listo en http://{host}:{port}")
     app.run(debug=False, port=port, host=host)
